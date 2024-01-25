@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Administation
+Bundle-SymbolicName: com.polarion.intelizign.administationPlugin;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Import-Package: org.springframework.beans.factory.annotation,
+ org.springframework.web.bind.annotation
+Require-Bundle: com.polarion.alm.tracker;bundle-version="3.21.2",
+ com.polarion.portal.tomcat;bundle-version="9.0.40",
+ com.google.gson,
+ com.polarion.alm.ui;bundle-version="3.21.2",
+ com.fasterxml.jackson;bundle-version="2.11.1",
+ javax.servlet
+Bundle-Vendor: POLARION
+Automatic-Module-Name: com.polarion.intelizign.administation
+Bundle-ClassPath: pluginManager.jar
+Bundle-RequiredExecutionEnvironment: JavaSE-11

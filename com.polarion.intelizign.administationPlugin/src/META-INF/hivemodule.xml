@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="com.polarion.intelizign.administation" version="1.0.0">
+	<contribution configuration-id="com.polarion.xray.webui.administrationPageExtenders">
+		<extender name="Extentions" parentNodeName="Plugin Manager"
+		 parentNodeIconUrl="/polarion/plugin-manager-admin/ui/grantis.jpg"
+		 iconUrl="/polarion/icons/default/topicIconsSmall/exe-file_9747705.png" 
+		 pageUrl="/polarion/plugin-manager-admin/ui?scope=$scope$"
+		 projectScope="true"
+		 projectGroupScope="true"
+		 repositoryScope="true"/>
+	</contribution>
+</module>
