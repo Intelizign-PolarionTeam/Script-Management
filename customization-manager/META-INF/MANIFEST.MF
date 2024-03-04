@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Custom-Manager
+Bundle-SymbolicName: customization-manager;singleton:=true
+Bundle-Vendor: Intelizign Engineering Services Pvt Ltd
+Bundle-Version: 1.0.0
+Bundle-ClassPath: custom-manager.jar
+Export-Package: com.intelizign.admin_custom_manager.impl,
+ com.intelizign.admin_custom_manager.service,
+ com.intelizign.admin_custom_manager.servlet
+Require-Bundle: com.fasterxml.jackson;bundle-version="2.11.1",
+ com.fasterxml.jackson.jaxrs;bundle-version="2.11.1",
+ com.polarion.alm.tracker;bundle-version="3.21.2",
+ com.polarion.alm.ui;bundle-version="3.21.2",
+ com.polarion.portal.tomcat;bundle-version="9.0.40"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: custom.management.singleton.true
