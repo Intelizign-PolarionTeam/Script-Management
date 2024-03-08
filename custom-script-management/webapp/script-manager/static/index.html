@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="ISO-8859-1" />
+	<title></title>
+	<link rel="stylesheet" href="./resources/style.css">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+	<script src="./resources/script.js"></script>
+</head>
+
+<body>
+	<h1 style="color: #005F87;">Custom Pre-Post Hook Scripts</h1>
+	<p style="color: #005F87">Below Script Deployed in Following Directory[C:\Polarion\polarion\scripts\workItemsave]<br><br>
+		<b>Note:</b> Below script will only be executed if you have deployed the FMC-WorkItemSave plugin.
+	</p>
+	<table class="polarion-rpw-table-content">
+		<thead>
+			<tr class="polarion-rpw-table-header-row">
+				<th style="text-align: center;">WorkItemHook-Script Name</th>
+				<th style="text-align: center;">Actions</th>
+			</tr>
+		</thead>
+		<tbody id="workItemHookTableBody">
+		</tbody>
+	</table><br>
+	<p style="color: #005F87">Below Script Deployed in Following Directory[C:\Polarion\polarion\scripts\documentsave]<br><br>
+		<b>Note:</b> Below script will only be executed if you have deployed the Intelizign-LiveDocSavePlugin plugin.
+	</p>
+	<table class="polarion-rpw-table-content">
+		<thead>
+			<tr class="polarion-rpw-table-header-row">
+				<th style="text-align: center;">LiveDocHook-Script Name</th>
+				<th style="text-align: center;">Actions</th>
+			</tr>
+		</thead>
+		<tbody id="liveDocHookTableBody">
+		</tbody>
+	</table>
+
+	<div id="popupModel" class="modal" style="display:none">
+		<div class="modal-content">
+			<div>
+				<h4 id="popupHeading" class="popup-heading"></h4>
+			</div>
+			<div class="popup-body">
+			
+			</div>
+			<div class="popup-footer">
+				<span class="save-btn-popup" onclick="saveHookScriptContent()">Save</span>
+				<span class="btn-popup-close" onclick="closeDetailsModel()">Close</span>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

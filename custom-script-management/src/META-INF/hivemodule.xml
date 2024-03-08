@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module id="com.intelizign.scriptManager" version="1.0.0">
+	<contribution configuration-id="com.polarion.xray.webui.administrationPageExtenders">
+		<extender name="Script Management" 
+		 pageUrl="/polarion/script-manager/scriptmanager"  
+		 projectScope="false" projectGroupScope="false" repositoryScope="true"/>
+	</contribution>
+</module>
