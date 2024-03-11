@@ -184,7 +184,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	                } catch (IOException e) {
 	                    e.printStackTrace();
 	                }
-	                return; // exit the method after updating the content
+	                return; 
 	            }
 	        }
 	    } else {
@@ -195,14 +195,11 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	
 	@Override
 	public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		System.out.println("updateHookScriptContent is Working");
+
 		String heading = req.getParameter("heading");
 		String scriptId = req.getParameter("scriptId");
 		String jsName = req.getParameter("jsName");
 		
-		System.out.println("headingId"+req.getParameter("heading")+"\n");
-		System.out.println("scriptId"+req.getParameter("scriptId")+"\n");
-		System.out.println("jsName"+req.getParameter("jsName")+"\n");
 		StringBuilder sb = new StringBuilder();
 		sb = sb.append(req.getParameter("hookScriptContent"));
 		System.out.println("Passed Content is:"+sb.toString()+"\n");
@@ -216,7 +213,8 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 			File workItemSaveDir =	getHookScriptFolder("workitemsave");
 			writeFileContent(sb,workItemSaveDir,jsName);
 		}else {
-			getHookScriptFolder("livedocumentsave");
+			File livedocSaveDir = getHookScriptFolder("livedocumentsave");
+			writeFileContent(sb,livedocSaveDir,jsName);
 		}
 	}
 }
