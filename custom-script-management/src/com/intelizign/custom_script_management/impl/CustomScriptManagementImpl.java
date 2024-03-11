@@ -1,6 +1,7 @@
 package com.intelizign.custom_script_management.impl;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ import com.polarion.core.util.logging.Logger;
 public class CustomScriptManagementImpl implements CustomScriptManagementService {
 	private static final Logger log = Logger.getLogger(CustomScriptManagementService.class);
 	private final ObjectMapper objectMapper = new ObjectMapper();
-	 
+	private String selectedHookScriptName;
 	public  Map<Integer,Map<String, Object>> liveDocHookMapObj = new HashMap<>();
 
 	/**
@@ -90,29 +91,34 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 	
-	public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		String workitemSaveDirName = "documentsave";
-		File hookScriptFile =getHookScriptFolder(workitemSaveDirName);
-		
-		try {
-			if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
-				AtomicInteger id = new AtomicInteger(0);
-				Arrays.stream(hookScriptFile.listFiles()).forEach(jsFile -> {
-					try {
-						liveDocHookMapObj.computeIfAbsent(id.get(), k -> new LinkedHashMap<>());
-						liveDocHookMapObj.get(id.get()).put("jsName", jsFile.getName());
-						id.getAndIncrement();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				});
-			} else {
-				log.error("The specified folder does not exist or is not a directory.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	/*public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	    String workitemSaveDirName = "documentsave";
+	    String scriptContent = req.getParameter("hookScriptContent");
+	    File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
+
+	    try {
+	        if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
+	            File[] files = hookScriptFile.listFiles();
+	            for (File file : files) {
+	                if (file.isFile() && file.getName().endsWith(".js")) { // Assuming the file is a JavaScript file
+	                    // Read the content of the file
+	                    StringBuilder fileContent = readFileContent(file);
+
+	                    // Replace the existing script content with the new script content
+	                    String updatedContent = replaceScriptContent(fileContent.toString(), scriptContent);
+
+	                    // Write the updated content back to the file
+	                    writeToFile(file, updatedContent);
+	                }
+	            }
+	        } else {
+	            log.error("The specified folder does not exist or is not a directory.");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}*/
+
  
 	//Access Script Folder
 	private File getHookScriptFolder(String hookDirName) {
@@ -146,7 +152,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	}
 	@Override
 	public void getRespScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		String selectedHookScriptName = req.getParameter("jsFileName");
+		selectedHookScriptName = req.getParameter("jsFileName");
 		String selectedTableHeader = req.getParameter("heading");
 		File hookScriptFile;
 		if(selectedTableHeader.startsWith("WorkItemHook")) {
@@ -168,4 +174,49 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	    resp.getWriter().write(jsonResponse);
 	}
 
+	private void writeFileContent(StringBuilder scriptContent, File hookScriptFile, String hookScriptName) throws IOException {
+	    if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
+	        for (File jsFile : hookScriptFile.listFiles()) {
+	            if (jsFile.getName().equals(hookScriptName)) {
+	                try (FileWriter writer = new FileWriter(jsFile)) {
+	                    writer.write(scriptContent.toString());
+	                    System.out.println("Content successfully updated for file: " + hookScriptName);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	                return; // exit the method after updating the content
+	            }
+	        }
+	    } else {
+	        System.err.println("hookScriptFile is not a directory: " + hookScriptFile.getAbsolutePath());
+	    }
+	    System.err.println("File not found: " + hookScriptName);
+	}
+	
+	@Override
+	public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		System.out.println("updateHookScriptContent is Working");
+		String heading = req.getParameter("heading");
+		String scriptId = req.getParameter("scriptId");
+		String jsName = req.getParameter("jsName");
+		
+		System.out.println("headingId"+req.getParameter("heading")+"\n");
+		System.out.println("scriptId"+req.getParameter("scriptId")+"\n");
+		System.out.println("jsName"+req.getParameter("jsName")+"\n");
+		StringBuilder sb = new StringBuilder();
+		sb = sb.append(req.getParameter("hookScriptContent"));
+		System.out.println("Passed Content is:"+sb.toString()+"\n");
+		replaceExistingScriptContent(sb, heading, scriptId, jsName);
+		
+		
+	}
+
+	private void replaceExistingScriptContent(StringBuilder sb, String heading, String scriptId, String jsName ) throws Exception{
+		if(heading.startsWith("WorkItemHook")) {
+			File workItemSaveDir =	getHookScriptFolder("workitemsave");
+			writeFileContent(sb,workItemSaveDir,jsName);
+		}else {
+			getHookScriptFolder("livedocumentsave");
+		}
+	}
 }

@@ -27,7 +27,7 @@ polarion-rpw-table-header-row>th {
 	padding: 10px 4px;
 
 	color: #757575;
-	font-weight: normal;
+	font-weight: bold;
 	border-bottom: 1px solid #D2D7DA;
 }
 
@@ -38,9 +38,16 @@ polarion-rpw-table-header-row>th {
 	width: 100%;
 }
 
-.polarion-rpw-table-content th,
+.polarion-rpw-table-content th{
+	font-weight: bold;
+	border: 1px solid #dddddd;
+	padding: 8px;
+	text-align: left;
+}
+
 .polarion-rpw-table-content td {
 	font-weight: normal;
+	font-size: 13px;
 	border: 1px solid #dddddd;
 	padding: 8px;
 	text-align: left;
@@ -51,7 +58,7 @@ polarion-rpw-table-header-row>th {
 .polarion-rpw-table-content {
 	width: 100%;
 	border-collapse: collapse;
-	font-size: 13px;
+	font-size: 15px;
 	border: 1px solid #CCCCCC;
 }
 

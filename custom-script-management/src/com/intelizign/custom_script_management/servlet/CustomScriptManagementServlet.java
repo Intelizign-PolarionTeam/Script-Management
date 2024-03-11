@@ -38,9 +38,13 @@ public class CustomScriptManagementServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-		String scriptContent = req.getParameter("hookScriptContent");
+		System.out.println("Post Method is Triggered");
+		String action = req.getParameter("action");	
+		if(action.equalsIgnoreCase("updatedScriptContent")) {
 		customScriptManagementService.updateHookScriptContent(req, resp);
-		System.out.println("ScriptContent is"+scriptContent+"\n");
+		}else {
+			
+		}
 		}catch(Exception e){
 			System.out.println("Error Message is"+e.getMessage()+"\n");
 		}

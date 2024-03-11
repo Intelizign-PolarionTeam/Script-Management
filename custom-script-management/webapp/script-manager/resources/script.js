@@ -38,13 +38,15 @@ $(document).ready(function() {
 		}
 	});
 })
-
+var heading;
+var scriptId;
+var jsName;
 $(document).on('click', '.edit-icon', function(e) {
 	e.preventDefault();
-	var heading = $('.polarion-rpw-table-header-row th:first').text();
+	heading = $('.polarion-rpw-table-header-row th:first').text();
 	console.log("heading is",heading);
-	var scriptId = $(this).data('script-id');//Row Index
-	var jsName = $(this).data('js-name');//Script Name
+	scriptId = $(this).data('script-id');//Row Index
+	jsName = $(this).data('js-name');//Script Name
 
 	console.log('JavaScript name:', jsName);
 	console.log('JavaScript name:', heading);
@@ -55,14 +57,14 @@ $(document).on('click', '.edit-icon', function(e) {
     dataType: 'json',
     success: function(response) {
         const hookScriptContent = response.hookScriptContent;
-        console.log("HookScriptContent", hookScriptContent);
+       // console.log("HookScriptContent", hookScriptContent);
 
         $('#popupHeading').text('Edit Script: ' + jsName);
 
         var editor = $('#scriptEditor');
         if (editor.length === 0) {
             console.log("Creating new editor...");
-            editor = $('<textarea id="scriptEditor" rows="10" cols="80" class="language-javascript"></textarea>');
+            editor = $('<textarea id="scriptEditor" rows="10" cols="100" class="language-javascript"></textarea>');
             console.log("New editor created:", editor);
             var popupBody = $('.popup-body'); 
             console.log("Popup body:", popupBody);
@@ -91,14 +93,20 @@ function closeDetailsModel() {
 }
 
 function saveHookScriptContent() {
+	console.log("Save Hook Script");
+	console.log("heading is",heading);
 	var scriptContent = $('#scriptEditor').val();
     $.ajax({
         url: 'scriptmanager?action=updatedScriptContent',
         type: 'POST',
         dataType: 'json',
-        data: { hookScriptContent: scriptContent }, 
+        data: { hookScriptContent: scriptContent,
+        		heading: heading,
+        		scriptId: scriptId,
+        		jsName: jsName
+        		 }, 
         success: function(response) {
-          //  console.log("Script content updated successfully:", response);
+          
             
         },
         error: function(error) {
