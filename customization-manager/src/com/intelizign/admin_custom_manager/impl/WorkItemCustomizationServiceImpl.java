@@ -101,7 +101,7 @@ public class WorkItemCustomizationServiceImpl implements WorkItemCustomizationSe
 	public void retrieveAndSendProjectListAsJSON(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			IPObjectList<IProject> getProjectList = trackerService.getProjectsService().searchProjects("", "id");
-
+			
 			Map<String, String> projectsObjMap = getProjectList.stream().map(pro -> {
 				try {
 					return Map.entry(pro.getId(), pro.getName());
