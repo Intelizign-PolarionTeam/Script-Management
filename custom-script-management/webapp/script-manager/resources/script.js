@@ -1,3 +1,24 @@
+var editor;
+require.config({
+	paths: {
+		'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs'
+	}
+});
+
+require(['vs/editor/editor.main'], function() {
+	editor = monaco.editor.create(document.getElementById('editor-container'), {
+		language: 'javascript',
+		theme: 'vs-dark'
+	});
+
+	editor.onDidChangeModelContent(function(event) {
+	});
+});
+
+function changeTheme() {
+	var selectedTheme = document.getElementById('themeDropdown').value;
+	monaco.editor.setTheme(selectedTheme);
+}
 $(document).ready(function() {
 	$.ajax({
 		url: 'scriptmanager?action=getHookMapObj',
@@ -6,112 +27,73 @@ $(document).ready(function() {
 		success: function(response) {
 			const workItemHookMapObj = response.workItemHookMapObj;
 			const liveDocHookMapObj = response.liveDocHookMapObj;
-			$('#workItemHookTableBody').empty();
+			const workFlowScriptMapObj = response.workFlowScriptMapObj;
+			
 
 			Object.keys(workItemHookMapObj).forEach(function(key) {
-				var jsName = workItemHookMapObj[key].jsName;
-
-
-				var row = '<tr class="polarion-rpw-table-content-row">';
-				row += '<td>' + jsName + '</td>';
-				row += '<td><a href="#" class="edit-icon" data-script-id="' + key + '" data-js-name="' + jsName + '"><i class="fas fa-edit"></i></a></td>';
-				row += '</tr>';
-
-				$('#workItemHookTableBody').append(row);
+				var workItemHookScriptName = workItemHookMapObj[key].jsName;
+				var dirName = "workitemsave";
+				$('#fileList').append('<li class="file-item" data-heading="' + dirName + '">' + workItemHookScriptName + '</li>');
 			});
-			
+
 			Object.keys(liveDocHookMapObj).forEach(function(key) {
-				var jsName = liveDocHookMapObj[key].jsName;
-
-
-				var row = '<tr class="polarion-rpw-table-content-row">';
-				row += '<td>' + jsName + '</td>';
-				row += '<td><a href="#" class="edit-icon" data-script-id="' + key + '" data-js-name="' + jsName + '"><i class="fas fa-edit"></i></a></td>';
-				row += '</tr>';
-
-				$('#liveDocHookTableBody').append(row);
+				var liveHookScriptName = liveDocHookMapObj[key].jsName;
+				var dirName = "documentsave";
+				$('#fileList').append('<li class="file-item" data-heading="' + dirName + '">' + liveHookScriptName + '</li>');
 			});
 			
+			Object.keys(workFlowScriptMapObj).forEach(function(key) {
+				var workFlowScriptName = workFlowScriptMapObj[key].jsName;
+				var dirName = "scripts";
+				$('#fileList').append('<li class="file-item" data-heading="' + dirName + '">' + workFlowScriptName + '</li>');
+			});
+
 		},
 		error: function(error) {
 			console.error('Error occurred while fetching hookMapObj:', error);
 		}
 	});
 })
-var heading;
-var scriptId;
+
 var jsName;
-$(document).on('click', '.edit-icon', function(e) {
-	e.preventDefault();
-	heading = $('.polarion-rpw-table-header-row th:first').text();
-	console.log("heading is",heading);
-	scriptId = $(this).data('script-id');//Row Index
-	jsName = $(this).data('js-name');//Script Name
+var dirName;
+$(document).on('click', '.file-item', function() {
+     jsName = $(this).text();
+     dirName = $(this).data('heading');
 
-	console.log('JavaScript name:', jsName);
-	console.log('JavaScript name:', heading);
-
-	$.ajax({
-    url: `scriptmanager?action=getRespFileScriptContent&jsFileName=${jsName}&heading=${heading}`,
-    type: 'GET',
-    dataType: 'json',
-    success: function(response) {
-        const hookScriptContent = response.hookScriptContent;
-       // console.log("HookScriptContent", hookScriptContent);
-
-        $('#popupHeading').text('Edit Script: ' + jsName);
-
-        var editor = $('#scriptEditor');
-        if (editor.length === 0) {
-            console.log("Creating new editor...");
-            editor = $('<textarea id="scriptEditor" rows="10" cols="100" class="language-javascript"></textarea>');
-            console.log("New editor created:", editor);
-            var popupBody = $('.popup-body'); 
-            console.log("Popup body:", popupBody);
-            popupBody.empty().append(editor);
-
-           //editor.css('overflow-y', 'auto');
-            setTimeout(function() {
-                console.log("Editor appended to popup body:", popupBody.html());
-            }, 100);
+    $.ajax({
+        url: `scriptmanager?action=getRespFileScriptContent&jsFileName=${jsName}&heading=${dirName}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            const hookScriptContent = response.hookScriptContent;
+            editor.setValue(hookScriptContent);
+        },
+        error: function(error) {
+            console.error('Error occurred while fetching script content:', error);
         }
-        editor.val(hookScriptContent);
-        Prism.highlightElement(editor[0]);
-
-        $('#popupModel').show();
-    },
-    error: function(error) {
-        console.error('Error occurred while fetching script content:', error);
-    }
+    });
 });
-
-
-});
-
-function closeDetailsModel() {
-	$('#popupModel').hide();
-}
 
 function saveHookScriptContent() {
-	console.log("Save Hook Script");
-	console.log("heading is",heading);
-	var scriptContent = $('#scriptEditor').val();
+    var scriptContent = editor.getValue();
     $.ajax({
         url: 'scriptmanager?action=updatedScriptContent',
         type: 'POST',
         dataType: 'json',
-        data: { hookScriptContent: scriptContent,
-        		heading: heading,
-        		scriptId: scriptId,
-        		jsName: jsName
-        		 }, 
+        data: {
+            hookScriptContent: scriptContent,
+            heading: dirName,
+            jsName: jsName
+        },
         success: function(response) {
-          
-            
+			if(response){
+            console.log("Modified Script Updated to Specific Js File");
+            }
         },
         error: function(error) {
             console.error('Error occurred while updating script content:', error);
-           
         }
     });
 }
+

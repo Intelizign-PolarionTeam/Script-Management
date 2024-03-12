@@ -27,6 +27,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	private String selectedHookScriptName;
 	public  Map<Integer,Map<String, Object>> liveDocHookMapObj = new HashMap<>();
+	public  Map<Integer,Map<String, Object>> workFlowScriptMapObj = new HashMap<>();
 
 	/**
 	 * Retrieve the hook file from the current server, add it into a map object, and
@@ -52,9 +53,13 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 					}
 				});
 				addLiveDocHookFileToMapObj(req,resp);
+				addWorkFlowScriptObjToMap(req,resp);
+				System.out.println("workFlowScriptMapObj"+workFlowScriptMapObj+"\n");
+				System.out.println("liveDocHookMapObj"+liveDocHookMapObj+"\n");
 				Map<String, Object> responseObject = new LinkedHashMap<>();
 				responseObject.put("workItemHookMapObj", workItemHookMapObj);
 				responseObject.put("liveDocHookMapObj", liveDocHookMapObj);
+				responseObject.put("workFlowScriptMapObj", workFlowScriptMapObj);
 				String jsonResponse = objectMapper.writeValueAsString(responseObject);
 
 				resp.setContentType("application/json");
@@ -91,41 +96,45 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 	
-	/*public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-	    String workitemSaveDirName = "documentsave";
-	    String scriptContent = req.getParameter("hookScriptContent");
+	public void addWorkFlowScriptObjToMap(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	    String workitemSaveDirName = "scripts";
 	    File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
-
+	    
 	    try {
 	        if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
-	            File[] files = hookScriptFile.listFiles();
-	            for (File file : files) {
-	                if (file.isFile() && file.getName().endsWith(".js")) { // Assuming the file is a JavaScript file
-	                    // Read the content of the file
-	                    StringBuilder fileContent = readFileContent(file);
-
-	                    // Replace the existing script content with the new script content
-	                    String updatedContent = replaceScriptContent(fileContent.toString(), scriptContent);
-
-	                    // Write the updated content back to the file
-	                    writeToFile(file, updatedContent);
+	            AtomicInteger id = new AtomicInteger(0);
+	            Arrays.stream(hookScriptFile.listFiles())
+	                  .filter(File::isFile) 
+	                  .forEach(jsFile -> {
+	                try {
+	                    workFlowScriptMapObj.computeIfAbsent(id.get(), k -> new LinkedHashMap<>());
+	                    workFlowScriptMapObj.get(id.get()).put("jsName", jsFile.getName());
+	                    id.getAndIncrement();
+	                } catch (Exception e) {
+	                    e.printStackTrace();
 	                }
-	            }
+	            });
 	        } else {
 	            log.error("The specified folder does not exist or is not a directory.");
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	}*/
+	}
 
  
 	//Access Script Folder
 	private File getHookScriptFolder(String hookDirName) {
-		String folderPath = System.getProperty("com.polarion.home") + "/../scripts/" + "/"+hookDirName+"/";
-		File hookScriptFile = new File(folderPath);
-		return hookScriptFile;
-		
+		if (hookDirName.equals("scripts")) {
+			String folderPath = System.getProperty("com.polarion.home") + "/../scripts/";
+			File hookScriptFile = new File(folderPath);
+			return hookScriptFile;
+		} else {
+			String folderPath = System.getProperty("com.polarion.home") + "/../scripts/" + "/" + hookDirName + "/";
+			File hookScriptFile = new File(folderPath);
+			return hookScriptFile;
+		}
+
 	}
 	// Read prepost hook file
 	private StringBuilder readFileContent(File hookScriptFile, String hookScriptName) throws IOException {
@@ -153,12 +162,14 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	@Override
 	public void getRespScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		selectedHookScriptName = req.getParameter("jsFileName");
-		String selectedTableHeader = req.getParameter("heading");
+		String heading = req.getParameter("heading");
 		File hookScriptFile;
-		if(selectedTableHeader.startsWith("WorkItemHook")) {
+		if(heading.equals("workitemsave")) {
 		 hookScriptFile = getHookScriptFolder("workitemsave");
+		}else if(heading.equals("scripts")){
+		 hookScriptFile = getHookScriptFolder("scripts");	
 		}else {
-		 hookScriptFile = getHookScriptFolder("livedocumentsave");	
+			hookScriptFile = getHookScriptFolder("documentsave");
 		}
 		
 	    StringBuilder hookScriptContent = new StringBuilder();
@@ -197,23 +208,25 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 
 		String heading = req.getParameter("heading");
-		String scriptId = req.getParameter("scriptId");
 		String jsName = req.getParameter("jsName");
 		
 		StringBuilder sb = new StringBuilder();
 		sb = sb.append(req.getParameter("hookScriptContent"));
-		System.out.println("Passed Content is:"+sb.toString()+"\n");
-		replaceExistingScriptContent(sb, heading, scriptId, jsName);
+		//System.out.println("Passed Content is:"+sb.toString()+"\n");
+		replaceExistingScriptContent(sb, heading, jsName);
 		
 		
 	}
 
-	private void replaceExistingScriptContent(StringBuilder sb, String heading, String scriptId, String jsName ) throws Exception{
-		if(heading.startsWith("WorkItemHook")) {
+	private void replaceExistingScriptContent(StringBuilder sb, String heading,  String jsName ) throws Exception{
+		if(heading.equals("workitemsave")) {
 			File workItemSaveDir =	getHookScriptFolder("workitemsave");
 			writeFileContent(sb,workItemSaveDir,jsName);
+		}else if(heading.equals("documentsave")) {
+			File livedocSaveDir = getHookScriptFolder("documentsave");
+			writeFileContent(sb,livedocSaveDir,jsName);
 		}else {
-			File livedocSaveDir = getHookScriptFolder("livedocumentsave");
+			File livedocSaveDir = getHookScriptFolder("scripts");
 			writeFileContent(sb,livedocSaveDir,jsName);
 		}
 	}
