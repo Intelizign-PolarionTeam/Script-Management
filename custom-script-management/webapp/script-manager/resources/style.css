@@ -50,6 +50,27 @@ html {
 	border-radius: 5px;
 }
 
+.collapse-toggle {
+    position: relative;
+}
+
+.plus-icon {
+    position: absolute;
+    left:250px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.upload-icon{
+	position: absolute;
+    left:300px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+	
+}
+
 .file-item {
 
 	background-color: #f2f2f2;

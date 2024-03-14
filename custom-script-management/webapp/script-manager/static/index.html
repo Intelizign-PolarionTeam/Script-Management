@@ -6,6 +6,10 @@
 	<title></title>
 	<link rel="stylesheet" href="./resources/style.css">
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.js"></script>
 	<script src="./resources/script.js"></script>
 </head>
@@ -15,13 +19,37 @@
 
 	<div class="wrapper">
 		<div class="file-explorer">
-			<h2 style="text-align:center;color: #005F87;">Script File Explorer</h2>
-			<ul class="file-list" id="fileList">
-			</ul>
+			<h2 style="text-align:left;color: #005F87; position: relative;">Script File Explorer
+			</h2>
+			<!--<ul class="file-list" id="fileList">
+			</ul>-->
+			<div id="fileList">
+				<div class="file-group" data-heading="workitemsave">
+					<div class="collapse-toggle">Work Item Scripts
+						<i id="plusIcon" class="fas fa-plus plus-icon"></i>
+						<i class="fas fa-upload upload-icon"></i>
+						</div>
+					<ul class="file-list">
+					</ul>
+				</div>
+				<div class="file-group" data-heading="documentsave">
+					<div class="collapse-toggle">Live Document Scripts<i id="plusIcon" class="fas fa-plus plus-icon"></i>
+					<i class="fas fa-upload upload-icon"></i>
+					</div>
+					<ul class="file-list">
+					</ul>
+				</div>
+				<div class="file-group" data-heading="scripts">
+					<div class="collapse-toggle">Workflow Scripts<i id="plusIcon" class="fas fa-plus plus-icon"></i>
+					<i class="fas fa-upload upload-icon"></i></div>
+					<ul class="file-list">
+					</ul>
+				</div>
+			</div>
 		</div>
 		<div class="editor-wrapper" style="padding-left:10px; overflow-y:auto;">
 			<div class="themeDropdown-div">
-			<select id="themeDropdown" onchange="changeTheme()">
+				<select id="themeDropdown" onchange="changeTheme()">
 					<option value="vs-dark">Dark Theme</option>
 					<option value="vs">Light Theme</option>
 				</select>

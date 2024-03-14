@@ -40,12 +40,27 @@ public class CustomScriptManagementServlet extends HttpServlet {
 		try {
 		System.out.println("Post Method is Triggered");
 		String action = req.getParameter("action");	
-		if(action.equalsIgnoreCase("updatedScriptContent")) {
-		customScriptManagementService.updateHookScriptContent(req, resp);
-		}else {
-			
-		}
-		}catch(Exception e){
+		if (action != null) {
+			switch (action) {
+			case "updatedScriptContent":
+				customScriptManagementService.updateHookScriptContent(req, resp);
+				break;
+			case "saveFileName":
+				customScriptManagementService.saveCreatedJsFiletoDir(req, resp);
+				break;
+			case "renameFileName":
+				customScriptManagementService.renameExistingJsFiletoDir(req, resp);
+				break;
+			case "deleteFile":
+				customScriptManagementService.deleteJsFileFromDir(req, resp);
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid action specified");
+			}
+			}else {
+				System.out.println("Passing action Not Matched");
+			}
+		}catch(Exception e) {
 			System.out.println("Error Message is"+e.getMessage()+"\n");
 		}
 	}

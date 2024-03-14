@@ -17,6 +17,12 @@ public interface CustomScriptManagementService {
 	
 	public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception;
 	
+	public void  saveCreatedJsFiletoDir(HttpServletRequest req, HttpServletResponse resp) throws Exception;
+	
+	public void  renameExistingJsFiletoDir(HttpServletRequest req, HttpServletResponse resp) throws Exception;
+	
+	public void deleteJsFileFromDir(HttpServletRequest req, HttpServletResponse resp) throws Exception;
+	
 	
 
 	
