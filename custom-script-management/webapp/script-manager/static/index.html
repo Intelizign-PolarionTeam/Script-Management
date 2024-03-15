@@ -15,52 +15,58 @@
 </head>
 
 <body>
-
-
+	<!--<div id="editor" style="width: 900px; height:700px;"></div>-->
 	<div class="wrapper">
-		<div class="file-explorer">
-			<h2 style="text-align:left;color: #005F87; position: relative;">Script File Explorer
-			</h2>
-			<!--<ul class="file-list" id="fileList">
-			</ul>-->
-			<div id="fileList">
-				<div class="file-group" data-heading="workitemsave">
-					<div class="collapse-toggle">Work Item Scripts
-						<i id="plusIcon" class="fas fa-plus plus-icon"></i>
-						<i class="fas fa-upload upload-icon"></i>
-						</div>
-					<ul class="file-list">
-					</ul>
+		<div id="sidebar">
+			<div id="sidebar-header" style="display: flex;margin: 9px 0px 45px 0px;">
+				<div>
+					<h4>Explorer</h4>
 				</div>
-				<div class="file-group" data-heading="documentsave">
-					<div class="collapse-toggle">Live Document Scripts<i id="plusIcon" class="fas fa-plus plus-icon"></i>
-					<i class="fas fa-upload upload-icon"></i>
+				<div>
+					<label class="switch">
+						<input type="checkbox" id="themeDropdown" onchange="changeTheme(event)">
+						<span class="slider round"></span>
+					</label>
+				</div>
+			</div>
+          <hr style="margin: -3px 0"/>
+			<div class="koh-tab-content" style="margin-top: 10px;">
+				<div class="koh-tab-content-body">
+					<div id="project-tree" class="koh-faq">
+						<details class="file-group" data-heading="workitemsave">
+							<summary class="summary">Workitem Save Scripts
+								<i id="plusIcon" class="fas fa-file-code summary-icon"></i><i class="fas fa-upload summary-icon upload-icon"></i></summary>
+							<ul class="file-list" "folder" id="workitemsave-file">
+							</ul>
+						</details>
+						<details class="file-group" data-heading="scripts">
+							<summary class="summary">Workflow Scripts<i class="fas fa-file-code workflow-summary summary-icon"></i>
+							<i id="plusIcon1" class="fas fa-upload workflow-icon workflow-summary" style="margin-left: 8px"></i></summary>
+							<ul class="file-list" "folder" id="workflow-file">
+							</ul>
+						</details>
+						<details class="file-group" data-heading="documentsave">
+							<summary class="summary">Document Save Scripts<i id="plusIcon2" class="fas fa-file-code summary-icon"></i><i class="fas fa-upload upload-icon"></i></summary>
+							<ul class="file-list" "folder" id="documentsave-file">
+							</ul>
+						</details>
+
 					</div>
-					<ul class="file-list">
-					</ul>
-				</div>
-				<div class="file-group" data-heading="scripts">
-					<div class="collapse-toggle">Workflow Scripts<i id="plusIcon" class="fas fa-plus plus-icon"></i>
-					<i class="fas fa-upload upload-icon"></i></div>
-					<ul class="file-list">
-					</ul>
 				</div>
 			</div>
 		</div>
 		<div class="editor-wrapper" style="padding-left:10px; overflow-y:auto;">
-			<div class="themeDropdown-div">
-				<select id="themeDropdown" onchange="changeTheme()">
-					<option value="vs-dark">Dark Theme</option>
-					<option value="vs">Light Theme</option>
-				</select>
-			</div>
-			<div id="editor-container" style="display:block"></div>
+			<div id="editor-container" style="display: block; width: 920px; height: 705px;"></div>
+
 			<div class="save-btn-div">
-				<span class="save-btn-span-class" onclick="saveHookScriptContent()">Save</span>
+				<button id="saveButton" class="save-btn-span-class" onclick="saveHookScriptContent()">Save</button>
 			</div>
 		</div>
 	</div>
-
+	<div class="alert" id="alertMessage">
+		File saved successfully!
+	</div>
+	
 </body>
 
 </html>

@@ -50,33 +50,9 @@ html {
 	border-radius: 5px;
 }
 
-.collapse-toggle {
-    position: relative;
-}
+file-item {
+	font-size: 14px;
 
-.plus-icon {
-    position: absolute;
-    left:250px; 
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-
-.upload-icon{
-	position: absolute;
-    left:300px; 
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-	
-}
-
-.file-item {
-
-	background-color: #f2f2f2;
-	border: 1px solid #ccc;
-	padding: 8px;
-	margin-bottom: 5px;
 }
 
 .file-list {
@@ -88,10 +64,14 @@ html {
 .file-list li {
 	cursor: pointer;
 	padding: 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 298px;
 }
 
 .file-list li:hover {
-	background-color: #f0f0f0;
+	background-color: lightgrey;
 }
 
 file-explorer {
@@ -108,9 +88,11 @@ select#themeDropdown {
 
 
 .save-btn-div {
-	padding-top: 15px;
+	padding-top: 5px;
+	margin-left: 835px
 }
-.save-btn-span-class span :hover{
+
+.save-btn-span-class span :hover {
 	cursor: pointer;
 
 }
@@ -119,9 +101,219 @@ select#themeDropdown {
 	border: 1px solid rgb(210, 210, 210);
 	text-align: center;
 	font-weight: bold;
-	color: #005F87;
+	color: #f5f5f5;
 	padding: 3px 12px;
 	font-size: 13px;
-	background-color: #f5f5f5;
+	background-color: #005F87;
 	border-radius: 3px;
+	width: 75px;
+	height: 30px;
+}
+
+body,
+html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-family: Arial, sans-serif;
+}
+
+#sidebar {
+	width: 310px;
+	height: 100%;
+	/*background-color: #2D373C;*/
+	/*color: #fff;*/
+	overflow-y: auto;
+}
+
+#sidebar-header {
+	/*background-color: #2D373C;*/
+	padding: 3px;
+}
+
+#sidebar-header h2 {
+	margin: 0;
+	font-size: 18px;
+}
+
+#project-tree {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.folder {
+	padding: 10px;
+	cursor: pointer;
+	position: relative;
+	font-size: 16px;
+	/* Default font size for folders */
+}
+
+.folder:hover {
+	position: relative;
+	background-color: rgb(192, 192, 192);
+}
+
+.folder.active span {
+	border: 2px solid blue;
+	/* Highlighted folder border */
+}
+
+.arrow {
+	position: absolute;
+	left: 5px;
+	/* Adjust arrow position */
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.arrow::after {
+	content: '▶';
+	/* Default arrow */
+	font-size: 12px;
+}
+
+.collapsed .arrow::after {
+	content: '▶';
+	/* Collapsed arrow */
+}
+
+.expanded .arrow::after {
+	content: '▼';
+	/* Expanded arrow */
+}
+
+.collapsed ul {
+	display: none;
+}
+
+.file {
+	font-size: 14px;
+	/* Font size for files */
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 55px;
+	height: 22px;
+	margin-left: 145px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 6px;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 19px;
+	width: 23px;
+	left: 4px;
+	bottom: 1.5px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked+.slider {
+	background-color: #2196F3;
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+hr:not([size]) {
+	height: 1.5px;
+}
+
+.fa.active {
+	transform: rotateZ(90deg);
+}
+
+.summary {
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	/* Add cursor pointer to indicate clickable */
+	margin-bottom: 8px;
+}
+
+.summary.active {
+	border: 1px solid rgb(0, 128, 255);
+	/* Blue border when active */
+}
+
+.summary-icon {
+	margin-right: 5px;
+	/* Adjust margin as needed */
+	margin-left: 30px;
+	display: inline-block;
+	/* Ensure icons are displayed */
+	position: relative;
+}
+
+.upload-icon {
+	margin-left: 10px;
+}
+
+.workflow-icon {
+	margin-left: 10px;
+}
+
+.workflow-summary {
+	margin-right: 5px;
+	/* Adjust margin as needed */
+	margin-left: 72px;
+}
+
+.tooltip {
+	position: absolute;
+	top: -30px;
+	/* Adjust vertical position of tooltip */
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	display: none;
+	/* Initially hide tooltip */
+}
+
+.summary-icon:hover .tooltip {
+	display: block;
+	/* Show tooltip on hover */
 }
