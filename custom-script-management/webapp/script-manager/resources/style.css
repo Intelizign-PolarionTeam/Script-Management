@@ -52,7 +52,6 @@ html {
 
 file-item {
 	font-size: 14px;
-
 }
 
 .file-list {
@@ -63,7 +62,7 @@ file-item {
 
 .file-list li {
 	cursor: pointer;
-	padding: 10px;
+	padding: 3px 20px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -263,25 +262,19 @@ hr:not([size]) {
 }
 
 .summary {
-	font-size: 16px;
+	font-size: 13px;
 	font-weight: bold;
 	cursor: pointer;
 	/* Add cursor pointer to indicate clickable */
-	margin-bottom: 8px;
-}
-
-.summary.active {
-	border: 1px solid rgb(0, 128, 255);
-	/* Blue border when active */
+	margin-bottom: 2px;
+	margin-top: 2px;
 }
 
 .summary-icon {
-	margin-right: 5px;
-	/* Adjust margin as needed */
-	margin-left: 30px;
-	display: inline-block;
-	/* Ensure icons are displayed */
-	position: relative;
+	/*margin-right: 5px;  Adjust margin as needed
+            margin-left: 30px;
+            display: inline-block;  Ensure icons are displayed
+            position: relative;*/
 }
 
 .upload-icon {
@@ -316,4 +309,94 @@ hr:not([size]) {
 .summary-icon:hover .tooltip {
 	display: block;
 	/* Show tooltip on hover */
+}
+
+#popupContainer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgb(0, 0, 0, 0.5);
+	/* display: flex;*/
+	height: 100%;
+	margin: auto;
+	justify-content: center;
+	align-items: center;
+}
+
+#popup {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+}
+
+.form-control {
+	width: 96%;
+	padding: 4px 8px;
+	border: 1px solid gray;
+	border-radius: 3px;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+#popup h2 {
+	margin-top: 0;
+}
+
+
+#buttons {
+	text-align: right;
+}
+
+.popup-button {
+	margin-left: 10px;
+	padding: 3px 8px;
+	min-width: 80px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+.hidden {
+	display: none;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.split__left {
+  width: 50%;
+ 
+}
+
+.split__right {
+  flex: 1;
+ 
+}
+
+.split__bar {
+   background-color: #3C3530;
+  width: 15px;
+  height: 100%;
+  cursor: col-resize;
 }

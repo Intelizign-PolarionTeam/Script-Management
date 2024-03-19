@@ -12,42 +12,73 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.js"></script>
 	<script src="./resources/script.js"></script>
+
 </head>
 
 <body>
 	<!--<div id="editor" style="width: 900px; height:700px;"></div>-->
-	<div class="wrapper">
-		<div id="sidebar">
-			<div id="sidebar-header" style="display: flex;margin: 9px 0px 45px 0px;">
+	<!--	<div class="wrapper">
+		<div id="sidebar"> -->
+	<div class="container split">
+		<div class="split__left" id="sidebar">
+			<div id="sidebar-header" style="display: flex;margin: 9px 0px 5px 0px;">
 				<div>
-					<h4>Explorer</h4>
+					<h3 style="margin-top: 0px;font-size: 23px">Explorer</h3>
 				</div>
-				<div>
+				<!--<div>
 					<label class="switch">
 						<input type="checkbox" id="themeDropdown" onchange="changeTheme(event)">
 						<span class="slider round"></span>
 					</label>
-				</div>
+				</div>-->
 			</div>
-          <hr style="margin: -3px 0"/>
+			<hr style="margin: -3px 0 ;margin-top: -28px" />
 			<div class="koh-tab-content" style="margin-top: 10px;">
 				<div class="koh-tab-content-body">
 					<div id="project-tree" class="koh-faq">
 						<details class="file-group" data-heading="workitemsave">
-							<summary class="summary">Workitem Save Scripts
-								<i id="plusIcon" class="fas fa-file-code summary-icon"></i><i class="fas fa-upload summary-icon upload-icon"></i></summary>
-							<ul class="file-list" "folder" id="workitemsave-file">
+							<summary class="summary">
+								<div style="display: inline-block; width: 80%">
+									<p style="font-size: 13px; margin:0px">Workitem Save Scripts</p>
+								</div>
+								<div style="display: inline-block">
+									<i id="plusIcon" class="fas fa-file-code summary-icon"
+										data-heading="workitemsave"></i>
+									<i class="fas fa-upload upload-icon"></i>
+								</div>
+							</summary>
+							<ul class="file-list folder" id="workitemsave-file"
+								style="background-color: white;padding: 0px">
 							</ul>
 						</details>
 						<details class="file-group" data-heading="scripts">
-							<summary class="summary">Workflow Scripts<i class="fas fa-file-code workflow-summary summary-icon"></i>
-							<i id="plusIcon1" class="fas fa-upload workflow-icon workflow-summary" style="margin-left: 8px"></i></summary>
-							<ul class="file-list" "folder" id="workflow-file">
+							<summary class="summary">
+								<div style="display: inline-block; width: 80%">
+									<p style="font-size: 13px; margin:0px">Workflow Scripts</p>
+								</div>
+								<div style="display: inline-block">
+									<i class="fas fa-file-code summary-icon" data-heading="scripts"></i>
+									<i id="plusIcon1" class="fas fa-upload workflow-icon workflow-summary"
+										style="margin-left: 8px"></i>
+								</div>
+							</summary>
+							<ul class="file-list folder" id="workflow-file"
+								style="background-color: white;padding: 0px">
 							</ul>
 						</details>
 						<details class="file-group" data-heading="documentsave">
-							<summary class="summary">Document Save Scripts<i id="plusIcon2" class="fas fa-file-code summary-icon"></i><i class="fas fa-upload upload-icon"></i></summary>
-							<ul class="file-list" "folder" id="documentsave-file">
+							<summary class="summary">
+								<div style="display: inline-block; width: 80%">
+									<p style="font-size: 13px; margin:0px">Document Save Scripts</p>
+								</div>
+								<div style="display: inline-block">
+									<i id="plusIcon2" class="fas fa-file-code summary-icon"
+										data-heading="documentsave"></i>
+									<i class="fas fa-upload upload-icon"></i>
+								</div>
+							</summary>
+							<ul class="file-list folder" id="documentsave-file"
+								style="background-color: white;padding: 0px">
 							</ul>
 						</details>
 
@@ -55,8 +86,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="editor-wrapper" style="padding-left:10px; overflow-y:auto;">
-			<div id="editor-container" style="display: block; width: 920px; height: 705px;"></div>
+		<div class="split__bar" id="split__bar"></div>
+		<div class="split__right" id="editor-wrapper" style="padding-left:10px; overflow-y:auto;">
+			<div id="editor-container" style="display: block; width: 965px; height: 698px;"></div>
 
 			<div class="save-btn-div">
 				<button id="saveButton" class="save-btn-span-class" onclick="saveHookScriptContent()">Save</button>
@@ -66,7 +98,15 @@
 	<div class="alert" id="alertMessage">
 		File saved successfully!
 	</div>
-	
+	<div id="popupContainer">
+		<div id="popup">
+			<h2>Create File</h2>
+			<input type="text" id="fileNameInput" class="form-control" placeholder="Enter file name">
+			<div id="buttons"><button id="createBtn" class="popup-button">Create</button>
+				<button id="closeBtn" class="popup-button">Close</button>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
