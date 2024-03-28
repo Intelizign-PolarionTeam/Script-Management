@@ -19,7 +19,7 @@ html {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-	overflow: hidden;
+	font-family: Arial, sans-serif;
 }
 
 .wrapper {
@@ -39,18 +39,22 @@ html {
 }
 
 
-
-#editor-container {
-	width: 800px;
-	height: 600px;
+#editor-wrapper {
+	flex: 1;
+	padding-left: 10px;
+	overflow-y: auto;
 }
 
+
 #editor-container {
+	width: 100%;
+	height: 100%;
 	border: 2px solid #999;
 	border-radius: 5px;
 }
 
-file-item {
+
+.file-item {
 	font-size: 14px;
 }
 
@@ -73,12 +77,12 @@ file-item {
 	background-color: lightgrey;
 }
 
-file-explorer {
+/*file-explorer {
 	border: 1px solid #ccc;
 	padding: 20px;
 	border-radius: 5px;
 }
-
+*/
 select#themeDropdown {
 	padding-bottom: 10px;
 }
@@ -109,24 +113,15 @@ select#themeDropdown {
 	height: 30px;
 }
 
-body,
-html {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	font-family: Arial, sans-serif;
-}
+
 
 #sidebar {
 	width: 310px;
 	height: 100%;
-	/*background-color: #2D373C;*/
-	/*color: #fff;*/
 	overflow-y: auto;
 }
 
 #sidebar-header {
-	/*background-color: #2D373C;*/
 	padding: 3px;
 }
 
@@ -146,7 +141,6 @@ html {
 	cursor: pointer;
 	position: relative;
 	font-size: 16px;
-	/* Default font size for folders */
 }
 
 .folder:hover {
@@ -156,31 +150,27 @@ html {
 
 .folder.active span {
 	border: 2px solid blue;
-	/* Highlighted folder border */
+
 }
 
 .arrow {
 	position: absolute;
 	left: 5px;
-	/* Adjust arrow position */
 	top: 50%;
 	transform: translateY(-50%);
 }
 
 .arrow::after {
 	content: '▶';
-	/* Default arrow */
 	font-size: 12px;
 }
 
 .collapsed .arrow::after {
 	content: '▶';
-	/* Collapsed arrow */
 }
 
 .expanded .arrow::after {
 	content: '▼';
-	/* Expanded arrow */
 }
 
 .collapsed ul {
@@ -189,7 +179,6 @@ html {
 
 .file {
 	font-size: 14px;
-	/* Font size for files */
 }
 
 .switch {
@@ -265,7 +254,6 @@ hr:not([size]) {
 	font-size: 13px;
 	font-weight: bold;
 	cursor: pointer;
-	/* Add cursor pointer to indicate clickable */
 	margin-bottom: 2px;
 	margin-top: 2px;
 }
@@ -287,14 +275,12 @@ hr:not([size]) {
 
 .workflow-summary {
 	margin-right: 5px;
-	/* Adjust margin as needed */
 	margin-left: 72px;
 }
 
 .tooltip {
 	position: absolute;
 	top: -30px;
-	/* Adjust vertical position of tooltip */
 	left: 50%;
 	transform: translateX(-50%);
 	background-color: rgba(0, 0, 0, 0.7);
@@ -303,28 +289,26 @@ hr:not([size]) {
 	border-radius: 4px;
 	font-size: 12px;
 	display: none;
-	/* Initially hide tooltip */
 }
 
 .summary-icon:hover .tooltip {
 	display: block;
-	/* Show tooltip on hover */
 }
 
-#popupContainer {
+#popupContainer,#rename-popup-Container {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	background-color: rgb(0, 0, 0, 0.5);
-	/* display: flex;*/
 	height: 100%;
 	margin: auto;
 	justify-content: center;
 	align-items: center;
 }
 
-#popup {
+
+#popup,#rename-popup {
 	background-color: #fff;
 	padding: 20px;
 	border-radius: 5px;
@@ -353,7 +337,7 @@ hr:not([size]) {
 	text-align: right;
 }
 
-.popup-button {
+.popup-button,.rename-popup-button {
 	margin-left: 10px;
 	padding: 3px 8px;
 	min-width: 80px;
@@ -368,35 +352,15 @@ hr:not([size]) {
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
-body {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-}
 
-.container {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
 
-.split__left {
-  width: 50%;
- 
-}
-
-.split__right {
-  flex: 1;
- 
-}
 
 .split__bar {
-   background-color: #3C3530;
-  width: 15px;
-  height: 100%;
-  cursor: col-resize;
+	background-color: #a9a7a5;
+	width: 4px;
+	height: 100%;
+	cursor: col-resize;
 }

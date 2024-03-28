@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.css">
+	<img class="loader hidden" src="/polarion/ria/images/progress.gif?buildId=20210920-1545-21_R2-be900ca2" title="Please wait.">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.js"></script>
 	<script src="./resources/script.js"></script>
 
@@ -44,7 +45,11 @@
 								<div style="display: inline-block">
 									<i id="plusIcon" class="fas fa-file-code summary-icon"
 										data-heading="workitemsave"></i>
-									<i class="fas fa-upload upload-icon"></i>
+									<i class="fas fa-upload upload-icon file-input" data-heading="workitemsave"
+										data-input-target="fileInput-workitemsave"></i>
+									<input type="file" id="fileInput-workitemsave"data-heading="workitemsave"
+										data-input-target="fileInput-workitemsave" style="display: none;"
+										accept=".js" />
 								</div>
 							</summary>
 							<ul class="file-list folder" id="workitemsave-file"
@@ -58,8 +63,8 @@
 								</div>
 								<div style="display: inline-block">
 									<i class="fas fa-file-code summary-icon" data-heading="scripts"></i>
-									<i id="plusIcon1" class="fas fa-upload workflow-icon workflow-summary"
-										style="margin-left: 8px"></i>
+									<i id="plusIcon1" class="fas fa-upload upload-icon workflow-summary file-input"
+										data-heading="scripts" data-input-target="fileInput-workitemsave" style="margin-left: 8px"></i>
 								</div>
 							</summary>
 							<ul class="file-list folder" id="workflow-file"
@@ -74,7 +79,8 @@
 								<div style="display: inline-block">
 									<i id="plusIcon2" class="fas fa-file-code summary-icon"
 										data-heading="documentsave"></i>
-									<i class="fas fa-upload upload-icon"></i>
+									<i class="fas fa-upload upload-icon file-input" data-heading="documentsave"
+										data-input-target="fileInput-workitemsave"></i>
 								</div>
 							</summary>
 							<ul class="file-list folder" id="documentsave-file"
@@ -84,16 +90,15 @@
 
 					</div>
 				</div>
-			</div>
+			</div> 
 		</div>
 		<div class="split__bar" id="split__bar"></div>
 		<div class="split__right" id="editor-wrapper" style="padding-left:10px; overflow-y:auto;">
-			<div id="editor-container" style="display: block; width: 965px; height: 698px;"></div>
-
+			<div id="editor-container" style="display: block;"></div>
 			<div class="save-btn-div">
 				<button id="saveButton" class="save-btn-span-class" onclick="saveHookScriptContent()">Save</button>
 			</div>
-		</div>
+		</div> 
 	</div>
 	<div class="alert" id="alertMessage">
 		File saved successfully!
@@ -103,6 +108,16 @@
 			<h2>Create File</h2>
 			<input type="text" id="fileNameInput" class="form-control" placeholder="Enter file name">
 			<div id="buttons"><button id="createBtn" class="popup-button">Create</button>
+				<button id="closeBtn" class="popup-button">Close</button>
+			</div>
+		</div>
+	</div>
+	
+	<div id="rename-popup-Container">
+		<div id="rename-popup">
+			<h2>Rename File</h2>
+			<input type="text" id="rename-fileNameInput" class="form-control" placeholder="Rename File Name">
+			<div id="buttons"><button id="renameBtn" class="rename-popup-button">Rename</button>
 				<button id="closeBtn" class="popup-button">Close</button>
 			</div>
 		</div>
