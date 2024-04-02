@@ -35,8 +35,6 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	private static final Logger log = Logger.getLogger(CustomScriptManagementService.class);
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	private String selectedHookScriptName;
-	public Map<Integer, Map<String, Object>> liveDocHookMapObj = new HashMap<>();
-	public Map<Integer, Map<String, Object>> workFlowScriptMapObj = new HashMap<>();
 	private static final ITrackerService trackerService = (ITrackerService) PlatformContext.getPlatform()
 			.lookupService(ITrackerService.class);
 	private static final ISecurityService securityService = (ISecurityService) PlatformContext.getPlatform()
@@ -65,14 +63,14 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 						e.printStackTrace();
 					}
 				});
-				addLiveDocHookFileToMapObj(req, resp);
-				addWorkFlowScriptObjToMap(req, resp);
+				Map<String, Object> responseObject = new LinkedHashMap<>();
+				addLiveDocHookFileToMapObj(req, resp, responseObject);
+				addWorkFlowScriptObjToMap(req, resp, responseObject);
 				// System.out.println("workFlowScriptMapObj"+workFlowScriptMapObj+"\n");
 				// System.out.println("liveDocHookMapObj"+liveDocHookMapObj+"\n");
-				Map<String, Object> responseObject = new LinkedHashMap<>();
 				responseObject.put("workItemHookMapObj", workItemHookMapObj);
-				responseObject.put("liveDocHookMapObj", liveDocHookMapObj);
-				responseObject.put("workFlowScriptMapObj", workFlowScriptMapObj);
+				//responseObject.put("liveDocHookMapObj", liveDocHookMapObj);
+				//responseObject.put("workFlowScriptMapObj", workFlowScriptMapObj);
 				String jsonResponse = objectMapper.writeValueAsString(responseObject);
 
 				resp.setContentType("application/json");
@@ -85,9 +83,10 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 
-	public void addLiveDocHookFileToMapObj(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public void addLiveDocHookFileToMapObj(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> reponseObject) throws Exception {
 		String workitemSaveDirName = "documentsave";
 		File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
+		Map<Integer, Map<String, Object>> liveDocHookMapObj = new HashMap<>();
 
 		try {
 			if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
@@ -101,6 +100,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 						e.printStackTrace();
 					}
 				});
+				reponseObject.put("liveDocHookMapObj", liveDocHookMapObj);
 			} else {
 				log.error("The specified folder does not exist or is not a directory.");
 			}
@@ -109,9 +109,10 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 
-	public void addWorkFlowScriptObjToMap(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public void addWorkFlowScriptObjToMap(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> responseObject) throws Exception {
 		String workitemSaveDirName = "scripts";
 		File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
+		Map<Integer, Map<String, Object>> workFlowScriptMapObj = new HashMap<>();
 
 		try {
 			if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
@@ -125,6 +126,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 						e.printStackTrace();
 					}
 				});
+				responseObject.put("workFlowScriptMapObj", workFlowScriptMapObj);
 			} else {
 				log.error("The specified folder does not exist or is not a directory.");
 			}
@@ -305,9 +307,9 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	        String filename = req.getParameter("filename");
 	        String dirName = req.getParameter("dirname");
 
-	
+	        System.out.println("Filename"+filename+"dirname"+dirName+"\n");
 	        File directory = getHookScriptFolder(dirName);
-
+	        System.out.println("Directory is"+directory+"\n");
 	        File fileToDelete = new File(directory, filename);
 
 	        if (fileToDelete.exists()) {

@@ -1,23 +1,14 @@
 var editor;
-require.config({
-	paths: {
-		'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs'
-	}
-});
 
-require(['vs/editor/editor.main'], function() {
-	editor = monaco.editor.create(document.getElementById('editor-container'), {
-		language: 'javascript',
-		theme: 'vs',
-		automaticLayout: true, // Ensures the editor layout adapts to changes in size
-		autoIndent: false
+document.addEventListener('DOMContentLoaded', function() {
+	var editorElement = document.getElementById('editor-container');
+	editor = CodeMirror(editorElement, {
+		mode: "javascript",
+		theme: "default",
+		lineNumbers: false
 	});
-
-
+	editor.setSize("990px", "650px");
 });
-
-
-
 
 var contextMenuOptions = {
 	selector: '.file-item',
@@ -26,27 +17,33 @@ var contextMenuOptions = {
 		console.log("Comming insdie rename..." + filename);
 		var dirname = $(this).closest('.file-group').data('heading');
 		if (key === 'delete') {
-			$('.loader').removeClass('hidden')
-			deleteFile(filename, dirname);
-			setDelay();
+				$('.loader').removeClass('hidden')
+				console.log("filenssame",filename);
+				console.log("dirnamsse",dirname);
+				deleteFile(filename, dirname, function() {
+					setDelay();
+					
+				});
+
 
 		} else if (key === 'rename') {
-			$('#rename-popup-Container').removeClass('hidden');
+			$('#editor-container').hide();
+			$('#rename-popup-Container').show();
 			$('#rename-fileNameInput').val(filename).focus();
 
 			$('#rename-popup-Container').on('click', '#renameBtn', function() {
+				$('#rename-popup-Container').hide();
+				$('#editor-container').hide();
 				var renameFilename = $('#rename-fileNameInput').val().trim();
 				console.log("Rename File Name is", renameFilename);
 				if (isValidFilename(renameFilename)) {
-					console.log("Existing File Name", filename);
-					console.log("Renamed File Name", renameFilename);
-					console.log("Directory Name is", dirname);
-					$('.loader').removeClass('hidden')
-					renameFile(filename, renameFilename, dirname);
-					setDelay();
-					alert("Your file is renamed Successfully in" + " " + dirname + " folder.");
-					location.reload();
-					$('#rename-popup-Container').addClass('hidden');
+					$('.loader').removeClass('hidden');
+					renameFile(filename, renameFilename, dirname, function(){
+					setTimeout(function() {
+						location.reload(true);
+					}, 2000);
+					});
+					//$('#rename-popup-Container').hide();
 				} else {
 					alert("Invalid filename. Only filenames ending with '.js' are allowed.");
 				}
@@ -79,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 $(document).ready(function() {
+  $('[data-toggle="tooltip"]').tooltip();   
 	$.contextMenu(contextMenuOptions);
 	$.ajax({
 		url: 'scriptmanager?action=getHookMapObj',
@@ -89,7 +87,9 @@ $(document).ready(function() {
 			const liveDocHookMapObj = response.liveDocHookMapObj;
 			const workFlowScriptMapObj = response.workFlowScriptMapObj;
 
+			console.log("workItemHookMapObj", workItemHookMapObj);
 			console.log("liveDocHookMapObj", liveDocHookMapObj);
+			console.log("workFlowScriptMapObj", workFlowScriptMapObj);
 			Object.keys(workItemHookMapObj).forEach(function(key) {
 				var workItemHookScriptName = workItemHookMapObj[key].jsName;
 				var dirName = "workitemsave";
@@ -118,16 +118,23 @@ $(document).ready(function() {
 var jsName;
 var dirName;
 $(document).on('click', '.file-item', function() {
-
+	$('#breadcrumbNav').show();
+	$('.editor-header-div').removeClass('hidden');
 	jsName = $(this).text();
 	dirName = $(this).data('heading');
+	$('.editor-header-div').text(jsName);
 	console.log("dir name...." + dirName);
+
+	$('.breadcrumb-item:nth-child(2) a').text(dirName);
+	$('.breadcrumb-item.active').text(jsName);
+
 	$.ajax({
 		url: `scriptmanager?action=getRespFileScriptContent&jsFileName=${jsName}&heading=${dirName}`,
 		type: 'GET',
 		dataType: 'json',
 		success: function(response) {
 			const hookScriptContent = response.hookScriptContent;
+			editor.setOption('lineNumbers', true);
 			editor.setValue(hookScriptContent);
 		},
 		error: function(error) {
@@ -135,15 +142,19 @@ $(document).on('click', '.file-item', function() {
 		}
 	});
 });
+
+
 function setDelay() {
 	setTimeout(function() {
-		location.reload();
-	}, 2000);
+		location.reload(true);
+	}, 5000);
 }
 
 
 function saveHookScriptContent() {
 	var scriptContent = editor.getValue();
+	console.log("jsname",jsName);
+	console.log("dirName",dirName);
 	$.ajax({
 		url: 'scriptmanager?action=updatedScriptContent',
 		type: 'POST',
@@ -165,17 +176,6 @@ function saveHookScriptContent() {
 }
 
 
-/*function changeTheme(event) {
-	console.log(event);
-	var btn = event.target.checked;
-	if (btn) {
-		monaco.editor.setTheme("vs-dark");
-	} else {
-		// Toggle button is unchecked
-		monaco.editor.setTheme("vs");
-	}
-}*/
-
 document.addEventListener('DOMContentLoaded', function() {
 	var summaries = document.querySelectorAll('.summary');
 	summaries.forEach(function(summary) {
@@ -189,30 +189,29 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 $(document).ready(function() {
-	// Function to handle file uploads
-	$('#popupContainer').addClass('hidden');
-	$('#rename-popup-Container').addClass('hidden');
-	// Function to handle file uploads
+	//$('#popupContainer').addClass('hidden');
+	//$('#rename-popup-Container').addClass('hidden');
+	var uploadFoldername;
 	$('.upload-icon').click(function() {
-		console.log("upload event triggered");
 		var inputId = $(this).data('input-target').trim();
-		var foldername = $(this).data('heading');
+		uploadFoldername = $(this).data('heading');
 		console.log("inputId:", inputId);
 		$('#' + inputId).trigger('click');
-		console.log("foldername id", foldername);
 	});
 
-	// Event handler for file input change
+
 	$(document).on('change', '#fileInput-workitemsave', function() {
 		var filename = $(this).val().split('\\').pop();
-		console.log('Uploaded filename:', filename);
-		var foldername = $(this).data('heading');
 		$('.loader').removeClass('hidden');
-		saveFile(filename, foldername);
-		setDelay();
+		saveFile(filename, uploadFoldername, function(){
+			setTimeout(function() {
+			location.reload();
+			}, 2000);
+			});
+			
 	});
 
-	// Event handler for file item click
+
 	$(document).on('click', '.file-item', function() {
 		jsName = $(this).text();
 		dirName = $(this).data('heading');
@@ -230,35 +229,39 @@ $(document).ready(function() {
 			}
 		});
 	});
-var directoryName;
+	var directoryName;
 	$(document).on('click', '.summary-icon', function() {
 		directoryName = $(this).data('heading');
 		console.log("create popup its working");
-		$('#popupContainer').removeClass('hidden');
+		$('#editor-container').hide();
+		$('#popupContainer').show();
 		$('#fileNameInput').focus();
 	})
-	// Event handler for the create button in the popup
+
 	$('#popupContainer').on('click', '#createBtn', function() {
-		
+		$('#popupContainer').hide();
+		$('#editor-container').show();
 		var filename = $('#fileNameInput').val().trim();
 		if (isValidFilename(filename)) {
 			$('.loader').removeClass('hidden');
-			saveFile(filename, directoryName);
-			setDelay();
-			$('#popupContainer').addClass('hidden');
+			saveFile(filename, directoryName, function(){
+			setTimeout(function() {
+			location.reload(true);
+			}, 2000);
+			});
 		} else {
 			alert("Invalid filename. Only filenames ending with '.js' are allowed.");
 		}
 	});
 
-	// Event handler for the close button in the popup
+
 	$('#popupContainer').on('click', '#closeBtn', function() {
-		$('#popupContainer').addClass('hidden');
+		$('#popupContainer').hide();
 	});
 
-	// Event handler for the close button in the rename popup
+
 	$('#rename-popup-Container').on('click', '#closeBtn', function() {
-		$('#rename-popup-Container').addClass('hidden');
+		$('#rename-popup-Container').hide();
 	});
 });
 
@@ -271,18 +274,19 @@ function isValidFilename(filename) {
 	return /\.js$/.test(filename);
 }
 
-function saveFile(filename, dirname) {
-	console.log('File to be saved:', filename);
-	console.log('Directory Name is:', dirname);
+function saveFile(filename, foldername, callback) {
 	$.ajax({
 		url: 'scriptmanager?action=saveFileName',
 		type: 'POST',
 		data: {
 			filename: filename,
-			dirname: dirname
+			dirname: foldername
 		},
 		success: function(response) {
 			console.log('File saved successfully:', response);
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
 		},
 		error: function(error) {
 			console.error('Error occurred while saving file:', error);
@@ -290,7 +294,7 @@ function saveFile(filename, dirname) {
 	});
 }
 
-function deleteFile(filename, dirname) {
+function deleteFile(filename, dirname, callback) {
 	console.log("filename", filename);
 	console.log("dirname", dirname);
 	$.ajax({
@@ -302,6 +306,9 @@ function deleteFile(filename, dirname) {
 		},
 		success: function(response) {
 			console.log('File saved successfully:', response);
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
 		},
 		error: function(error) {
 			console.error('Error occurred while renaming file:', error);
@@ -309,7 +316,7 @@ function deleteFile(filename, dirname) {
 	});
 }
 
-function renameFile(existingfilename, newfilename, dirname) {
+function renameFile(existingfilename, newfilename, dirname, callback) {
 	console.log("dir name is..." + dirname + existingfilename + newfilename);
 	$.ajax({
 		url: 'scriptmanager?action=renameFileName',
@@ -321,9 +328,13 @@ function renameFile(existingfilename, newfilename, dirname) {
 		},
 		success: function(response) {
 			console.log('File saved successfully:', response);
+			if (callback && typeof callback === 'function') {
+				callback();
+			}
 		},
 		error: function(error) {
 			console.error('Error occurred while renaming file:', error);
-		}
+		},
+
 	});
 }

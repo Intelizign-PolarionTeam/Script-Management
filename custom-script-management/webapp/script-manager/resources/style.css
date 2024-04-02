@@ -1,184 +1,241 @@
 /* Resetting default styles for certain elements */
-TD, LI, UL, INPUT, BUTTON, OPTION, P {
-    font-family: "Segoe UI", "Selawik", "Open Sans", Arial, sans-serif;
-    font-size: 13px;
+TD,
+LI,
+UL,
+INPUT,
+BUTTON,
+OPTION,
+P {
+	font-family: "Segoe UI", "Selawik", "Open Sans", Arial, sans-serif;
+	font-size: 13px;
 }
 
-DIV {
-    font-family: "Segoe UI", "Selawik", "Open Sans", Arial, sans-serif;
-    font-size: 14px;
+DIV, h2 {
+	font-family: "Segoe UI", "Selawik", "Open Sans", Arial, sans-serif;
+	font-size: 14px;
 }
 
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
+body,
+html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-family: Arial, sans-serif;
 }
 
 .wrapper {
-    display: flex;
-    height: 100%;
+	display: flex;
+	height: 100%;
 }
 
+.summary {
+	margin: 0;
+	padding: 5px;
+	font-weight: bold;
+	line-height: 1.5;
+}
+
+	
+
 .themeDropdown-div {
-    padding-top: 20px;
-    padding-bottom: 10px;
+	padding-top: 20px;
+	padding-bottom: 10px;
 }
 
 /* Styling for the file explorer */
 .split__left {
-    flex: 0 0 auto;
-    width: 310px;
-    overflow-y: auto;
-    border-right: 1px solid #ccc;
+	flex: 0 0 auto;
+	width: 310px;
+	overflow-y: auto;
+	border-right: 1px solid #ccc;
 }
 
 #sidebar {
-    width: 310px;
-    height: 100%;
-    overflow-y: auto;
+	width: 310px;
+	height: 100%;
+	overflow-y: auto;
 }
 
 #sidebar-header {
-    padding: 3px;
+	padding: 15px;
+	position: inherit;
+	top: 0;
+	background-color: white;
+	z-index: 1;
+	border-bottom: 2px solid #ccc;
 }
 
+
+
 #sidebar-header h3 {
-    margin: 0;
-    font-size: 18px;
+	margin: 0;
+	font-size: 18px;
 }
 
 #project-tree {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 .folder {
-    padding: 10px;
-    cursor: pointer;
-    position: relative;
-    font-size: 16px;
+	padding: 10px;
+	cursor: pointer;
+	position: relative;
+	font-size: 16px;
 }
 
 .file-list li {
-    cursor: pointer;
-    padding: 3px 20px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+	cursor: pointer;
+	padding: 3px 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
+.file-group {
+	margin: 0;
+	padding: 0;
+}
+
+
+
 .file-list li:hover {
-    background-color: lightgrey;
+	background-color: lightgrey;
 }
 
 /* Styling for the split layout */
 .split {
-    display: flex;
-    height: 100%;
+	display: flex;
+	height: 100%;
 }
 
 .split__bar {
-    background-color: #a9a7a5;
-    width: 4px;
-    cursor: col-resize;
+	background-color: #dddddd;
+	width: 2px;
+	cursor: col-resize;
 }
 
 .split__right {
-    flex: 1 1 auto;
-    overflow-y: auto;
-    padding-left: 10px;
+	flex: 1 1 auto;
+	padding: 0px;
 }
 
-/* Styling for the editor */
+.file-list {
+	background-color: white;
+	padding: 0px;
+	margin-top: -5px;
+	margin-bottom: 0;
+}
+
+.loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 9999;
+}
+
+
 #editor-container {
-    width: calc(100% - 10px);
-    height: 600px;
-    border: 2px solid #999;
-    border-radius: 5px;
+	width: calc(100% - 10px);
+	height:700px;
+	border-bottom: 2px solid #999;
+	border-radius: 5px;
+	box-sizing: border-box;
 }
 
-/* Styling for the save button */
 .save-btn-div {
-    padding-top: 5px;
-    margin-left: auto; /* Adjusted to align with split__right */
+	padding-top: 5px;
+	margin-left: auto;
 }
 
 .save-btn-span-class {
-    border: 1px solid rgb(210, 210, 210);
-    text-align: center;
-    font-weight: bold;
-    color: #f5f5f5;
-    padding: 3px 12px;
-    font-size: 13px;
-    background-color: #005F87;
-    border-radius: 3px;
-    width: 75px;
-    height: 30px;
+	border: 1px solid rgb(210, 210, 210);
+	text-align: center;
+	font-weight: bold;
+	color: #f5f5f5;
+	font-size: 13px;
+	background-color: #005F87;
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+	border-radius: 100%;
+	height: 50px;
+	width: 50px;
+	padding: 8px;
+	cursor: pointer;
 }
 
-/* Popup styles */
-#popupContainer, #rename-popup-Container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    margin: auto;
-    justify-content: center;
-    align-items: center;
+
+#popupContainer,
+#rename-popup-Container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	height: 100%;
+	margin: auto;
+	justify-content: center;
+	align-items: center;
+	
+	
+}
+.error{
+	color:red;
+}
+#popup,
+#rename-popup {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
 }
 
-#popup, #rename-popup {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 100px;
-}
-
-.container-header{
-	margin-top: 0px !important;
-	font-size: 23px;
-}
 
 .form-control {
-    width: 96%;
-    padding: 4px 8px;
-    border: 1px solid gray;
-    border-radius: 3px;
-    font-size: 13px;
-    line-height: 1.5;
+	width: 96%;
+	padding: 4px 8px;
+	border: 1px solid gray;
+	border-radius: 3px;
+	font-size: 13px;
+	line-height: 1.5;
 }
 
-#popup h2, #rename-popup h2 {
-    margin-top: 0;
+#popup h2,
+#rename-popup h2 {
+	margin-top: 0;
+	font-size:20px;
+}
+
+.breadcrumb{
+	margin-bottom: 0 !important;
 }
 
 #buttons {
-    text-align: right;
+	text-align: right;
 }
 
-.popup-button, .rename-popup-button {
-    margin-left: 10px;
-    padding: 3px 8px;
-    min-width: 80px;
-    margin-top: 10px;
-    cursor: pointer;
+.popup-button,
+.rename-popup-button {
+	margin-left: 10px;
+	padding: 3px 8px;
+	min-width: 80px;
+	margin-top: 10px;
+	cursor: pointer;
 }
 
 .hidden {
-    display: none;
+	display: none;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+	box-sizing: inherit;
 }
