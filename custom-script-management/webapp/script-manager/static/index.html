@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
 	<meta charset="ISO-8859-1" />
 	<title></title>
@@ -11,85 +11,88 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/default.min.css">
-
+ 
 </head>
-
+ 
 <body>
-	<div id="successMessage" style="display: none;" class="alert alert-success" role="alert">
-	</div>
 	<div class="split">
-		<div class="split__left" id="sidebar">
-			<div id="sidebar-header">
-				<div>
-					<h3 style="margin-top: 0px;font-size: 26px;">Explorer</h3>
+		<div class="split__left" id="sidebar" style="background-color: #2D373C;position: sticky">
+			<div class="script-management-container-div scroll-bar">
+				<div id="sidebar-header" style="position: sticky">
+					<div>
+						<h3 style="margin-top: 0px;font-size: 26px; color: white;">Script Management</h3>
+					</div>
+ 
+ 
 				</div>
-
-
-			</div>
-
-			<div class="koh-tab-content" style="margin-top: 10px;">
-				<div class="koh-tab-content-body">
-					<div id="project-tree" class="koh-faq">
-						<details class="file-group" data-heading="workitemsave">
-							<summary class="summary">
-								<div style="display: inline-block; width: 80%">
-									<p style="font-size: 13px; margin:0px">Workitem Save Scripts</p>
-								</div>
-								<div style="display: inline-block">
-									<i id="plusIcon" class="fa fa-file-o summary-icon" data-heading="workitemsave"
-										data-toggle="tooltip" title="Create new file"></i>
-									<i class="fas fa-upload upload-icon file-input" data-heading="workitemsave"
-										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
-										title="Upload new file"></i>
-									<input type="file" id="fileInput-workitemsave" data-heading="workitemsave"
-										data-input-target="fileInput-workitemsave" style="display: none;"
-										accept=".js" />
-								</div>
-							</summary>
-							<ul class="file-list folder" id="workitemsave-file"
-								style="background-color: white;padding: 0px">
-							</ul>
-						</details>
-
-						<details class="file-group" data-heading="scripts">
-							<summary class="summary">
-								<div style="display: inline-block; width: 80%">
-									<p style="font-size: 13px; margin:0px">Workflow Scripts</p>
-								</div>
-								<div style="display: inline-block">
-									<i class="fa fa-file-o summary-icon" data-heading="scripts" data-toggle="tooltip"
-										title="Create new file"></i>
-									<i id="plusIcon1" class="fas fa-upload upload-icon workflow-summary file-input"
-										data-heading="scripts" data-input-target="fileInput-workitemsave"
-										data-toggle="tooltip" title="Upload new file"></i>
-								</div>
-							</summary>
-							<ul class="file-list folder" id="workflow-file"
-								style="background-color: white;padding: 0px">
-							</ul>
-						</details>
-
-						<details class="file-group" data-heading="documentsave">
-							<summary class="summary">
-								<div style="display: inline-block; width: 80%">
-									<p style="font-size: 13px; margin:0px">Document Save Scripts</p>
-								</div>
-								<div style="display: inline-block">
-									<i id="plusIcon2" class="fa fa-file-o summary-icon" data-heading="documentsave" data-toggle="tooltip" title="Create new file"></i>
-									<i class="fas fa-upload upload-icon file-input" data-heading="documentsave"
-										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
-										title="Upload new file"></i>
-								</div>
-							</summary>
-							<ul class="file-list folder" id="documentsave-file"
-								style="background-color: white;padding: 0px">
-							</ul>
-						</details>
-
+ 
+				<div class="koh-tab-content" style="margin-top: 10px;">
+					<div class="koh-tab-content-body">
+						<div id="project-tree" class="koh-faq">
+							<details class="file-group" data-heading="workitemsave">
+								<summary class="summary">
+									<div style="display: inline-block; width: 80%">
+										<p style="font-size: 14px; margin:0px">Workitem Save Scripts</p>
+									</div>
+									<div style="display: inline-block">
+										<i class="fa-solid fa-file-plus"></i>
+										<i id="plusIcon" class="fa fa-file-o summary-icon" data-heading="workitemsave"
+											data-toggle="tooltip" title="Create new file" style="margin-left: -3px;"></i>
+										<i class="fas fa-upload upload-icon file-input" data-heading="workitemsave"
+											data-input-target="fileInput-workitemsave" data-toggle="tooltip"
+											title="Upload new file"></i>
+										<input type="file" id="fileInput-workitemsave" data-heading="workitemsave"
+											data-input-target="fileInput-workitemsave" style="display: none;"
+											accept=".js" />
+									</div>
+								</summary>
+								<ul class="file-list folder" id="workitemsave-file"
+									style="background-color: white;padding: 0px">
+								</ul>
+							</details>
+ 
+							<details class="file-group" data-heading="scripts">
+								<summary class="summary">
+									<div style="display: inline-block; width: 80%">
+										<p style="font-size: 14px; margin:0px">Workflow Scripts</p>
+									</div>
+									<div style="display: inline-block">
+										<i class="fa fa-file-o summary-icon" data-heading="scripts"
+											data-toggle="tooltip" title="Create new file"></i>
+										<i id="plusIcon1" class="fas fa-upload upload-icon workflow-summary file-input"
+											data-heading="scripts" data-input-target="fileInput-workitemsave"
+											data-toggle="tooltip" title="Upload new file"></i>
+									</div>
+								</summary>
+								<ul class="file-list folder" id="workflow-file"
+									style="background-color: white;padding: 0px">
+								</ul>
+							</details>
+ 
+							<details class="file-group" data-heading="documentsave">
+								<summary class="summary">
+									<div style="display: inline-block; width: 80%">
+										<p style="font-size: 14px; margin:0px">Document Save Scripts</p>
+									</div>
+									<div style="display: inline-block">
+										<i id="plusIcon2" class="fa fa-file-o summary-icon" data-heading="documentsave"
+											data-toggle="tooltip" title="Create new file"></i>
+										<i class="fas fa-upload upload-icon file-input" data-heading="documentsave"
+											data-input-target="fileInput-workitemsave" data-toggle="tooltip"
+											title="Upload new file"></i>
+									</div>
+								</summary>
+								<ul class="file-list folder" id="documentsave-file"
+									style="background-color: white;padding: 0px">
+								</ul>
+							</details>
+ 
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+ 
 		<div class="split__bar" id="split__bar"></div>
 		<div class="split__right" id="editor-wrapper">
 			<!--	<div id="editor" -->
@@ -99,24 +102,25 @@
 					<li class="breadcrumb-item"><a>Library</a></li>
 					<li class="breadcrumb-item active" aria-current="page">Data</li>
 				</ol>
-			</nav>
-			<div id="editor-container" style="display: block;"></div>
-			<div class="save-btn-div">
+				<div class="save-btn-div">
 				<button id="saveButton" class="save-btn-span-class" onclick="saveHookScriptContent()">Save</button>
 			</div>
+			</nav>
+			<div id="editor-container" style="display: block;"></div>
+			
 		</div>
 	</div>
-
+ 
 	<div id="popupContainer" style="display:none">
 		<div id="popup">
-			<h2>Create File</h2>
+			<h2 id="popupTitle">Create File</h2>
 			<input type="text" id="fileNameInput" class="form-control" placeholder="Enter file name">
 			<div id="buttons"><button id="createBtn" class="popup-button">Create</button>
 				<button id="closeBtn" class="popup-button">Close</button>
 			</div>
 		</div>
 	</div>
-
+ 
 	<div id="rename-popup-Container" style="display:none;">
 		<div id="rename-popup">
 			<h2>Rename File</h2>
@@ -126,7 +130,7 @@
 			</div>
 		</div>
 	</div>
-
+ 
 	<img class="loader hidden" src="/polarion/ria/images/progress.gif?buildId=20210920-1545-21_R2-be900ca2"
 		title="Please wait.">
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -136,7 +140,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
 	<script src="./resources/script.js"></script>
-
+ 
 </body>
-
+ 
 </html>
+ 

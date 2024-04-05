@@ -236,27 +236,34 @@ $(document).ready(function() {
 		$('#editor-container').hide();
 		$('#popupContainer').show();
 		$('#fileNameInput').focus();
+		console.log("Directory name is"+directoryName);
+		$('#popupTitle').text("Create File - ("+ directoryName+")");
 	})
 
 	$('#popupContainer').on('click', '#createBtn', function() {
-		$('#popupContainer').hide();
-		$('#editor-container').show();
-		var filename = $('#fileNameInput').val().trim();
-		if (isValidFilename(filename)) {
-			$('.loader').removeClass('hidden');
-			saveFile(filename, directoryName, function(){
-			setTimeout(function() {
-			location.reload(true);
-			}, 2000);
-			});
-		} else {
-			alert("Invalid filename. Only filenames ending with '.js' are allowed.");
-		}
-	});
+		console.log("Create Button Clicked");
+    $('#popupContainer').hide();
+    
+    var filename = $('#fileNameInput').val().trim();
+    if (isValidFilename(filename)) {
+        $('.loader').removeClass('hidden');
+        saveFile(filename, directoryName, function(){
+			console.log("Begining open file editor ");
+            openFileInEditor(filename, directoryName); // Open the file in the editor after creation
+            setTimeout(function() {
+                location.reload(true);
+            }, 2000);
+        });
+    } else {
+        alert("Invalid filename. Only filenames ending with '.js' are allowed.");
+    }
+    $('#editor-container').show();
+});
 
 
 	$('#popupContainer').on('click', '#closeBtn', function() {
 		$('#popupContainer').hide();
+		$('#editor-container').show()
 	});
 
 
@@ -337,4 +344,28 @@ function renameFile(existingfilename, newfilename, dirname, callback) {
 		},
 
 	});
+}
+
+$('#popupContainer').on('click', '#createBtn', function() {
+    console.log("Create Button Clicked");
+    $('#popupContainer').hide();
+    
+    var filename = $('#fileNameInput').val().trim();
+    if (isValidFilename(filename)) {
+        $('.loader').removeClass('hidden');
+        saveFile(filename, directoryName, function(filename, directoryName){
+            console.log("Beginning to open file in editor");
+            openFileInEditor(filename, directoryName); 
+            addToExplorer(filename, directoryName);
+        });
+    } else {
+        alert("Invalid filename. Only filenames ending with '.js' are allowed.");
+    }
+    $('#editor-container').show();
+});
+
+function addToExplorer(filename, dirname) {
+	console.log("Its added the add to Explorer page");
+    var $fileItem = $('<li class="file-item" data-heading="' + dirname + '">' + filename + '</li>');
+    $('#explorer').append($fileItem);
 }
