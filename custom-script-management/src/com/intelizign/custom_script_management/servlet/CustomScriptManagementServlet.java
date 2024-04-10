@@ -38,7 +38,6 @@ public class CustomScriptManagementServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-		System.out.println("Post Method is Triggered");
 		String action = req.getParameter("action");	
 		if (action != null) {
 			switch (action) {

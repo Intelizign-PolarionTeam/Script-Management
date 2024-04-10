@@ -204,7 +204,6 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 				if (jsFile.getName().equals(hookScriptName)) {
 					try (FileWriter writer = new FileWriter(jsFile)) {
 						writer.write(scriptContent.toString());
-						System.out.println("Content successfully updated for file: " + hookScriptName);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -222,12 +221,15 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 
 		String heading = req.getParameter("heading");
 		String jsName = req.getParameter("jsName");
-
+		String sucessMessage = "sucess";
 		StringBuilder sb = new StringBuilder();
 		sb = sb.append(req.getParameter("hookScriptContent"));
 		// System.out.println("Passed Content is:"+sb.toString()+"\n");
 		replaceExistingScriptContent(sb, heading, jsName);
 
+		resp.setContentType("application/json");
+		resp.getWriter().write("{\"status\": \"success\"}");
+		
 	}
 
 	private void replaceExistingScriptContent(StringBuilder sb, String heading, String jsName) throws Exception {
