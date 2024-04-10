@@ -2,21 +2,28 @@
 var editor;
 var jsName;
 var dirName;
-document.addEventListener('DOMContentLoaded', function() {
+function initializeEditor() {
 	var editorElement = document.getElementById('editor-container');
+	if (!editorElement) {
+		console.error("Editor container not found");
+		return;
+	}
+
 	editor = CodeMirror(editorElement, {
 		mode: "javascript",
 		theme: "default",
+		gutters: ["CodeMirror-lint-markers"], 
 		lineNumbers: false
 	});
 	editor.setSize("990px", "650px");
 
 
-	editor.on("change", function(cm, change) {
+	editor.on("change", function() {
+		console.log("Editor content changed");
 		saveHookScriptContent();
 	});
+}
 
-});
 
 var contextMenuOptions = {
 	selector: '.file-item',
@@ -72,10 +79,6 @@ var contextMenuOptions = {
 	}
 };
 
-/*window.onbeforeunload = function() {
-    
-	return "Are you sure you want to leave this page?";
-};*/
 
 
 function initialLoad() {
@@ -126,15 +129,14 @@ function initialLoad() {
 
 function setDelay() {
 	setTimeout(function() {
-		//location.reload(true);
 		$('.loader').addClass('hidden');
 	}, 2000);
 }
-	var jsName ;
-	var dirName ;
+var jsName;
+var dirName;
 $(document).ready(function() {
+	initializeEditor();
 	initialLoad();
-
 	var uploadFoldername;
 	$('.upload-icon').click(function() {
 		var inputId = $(this).data('input-target').trim();
@@ -161,27 +163,7 @@ $(document).ready(function() {
 	});
 
 
-	/*	$(document).on('click', '.file-item', function(event) {
-			console.log("Triggered File Item");
-			jsName = $(this).text();
-			dirName = $(this).data('heading');
-			console.log("dirs name...." + dirName);
-			$.ajax({
-				url: `scriptmanager?action=getRespFileScriptContent&jsFileName=${jsName}&heading=${dirName}`,
-				type: 'GET',
-				dataType: 'json',
-				success: function(response) {
-					const hookScriptContent = response.hookScriptContent;
-					editor.setValue(hookScriptContent);
-					initialContent = hookScriptContent;
-					updatedContent = hookScriptContent;
-				},
-				error: function(error) {
-					console.error('Error occurred while fetching script content:', error);
-				}
-			});
-	
-		});*/
+
 
 
 	var directoryName;
@@ -224,72 +206,42 @@ $(document).ready(function() {
 
 	$('.info-button').click(function() {
 		$('#breadcrumbNav').hide();
+		console.log("info-button clicked");
 		loadAboutUsPage($('#editor-container'));
 	});
 
 	$(document).on('click', '.file-item', function() {
-		var contentType = $(this).data('content-type');
-		console.log("File-item clicked");
-		if (contentType === 'script') {
-			console.log("Scripts  clicked");
-			 jsName = $(this).text();
-			 dirName = $(this).data('heading');
-	       $('#breadcrumbNav').show();
-			var breadcrumbHtml = '';
+		console.log("Scripts  clicked");
+		jsName = $(this).text();
+		dirName = $(this).data('heading');
+		$('#breadcrumbNav').show();
+		var breadcrumbHtml = '';
 
-			if (dirName === "workitemsave" || dirName === "documentsave") {
-				breadcrumbHtml += `
+		if (dirName === "workitemsave" || dirName === "documentsave") {
+			breadcrumbHtml += `
                 <li class="breadcrumb-item"><a>polarion</a></li>
                 <li class="breadcrumb-item"><a>scripts</a></li>
                 <li class="breadcrumb-item active-list" aria-current="page">${dirName}</li>
                 `;
-			} else if (dirName === "scripts") {
-				breadcrumbHtml += `
+		} else if (dirName === "scripts") {
+			breadcrumbHtml += `
                 <li class="breadcrumb-item"><a>polarion</a></li>
                 <li class="breadcrumb-item active-list" aria-current="page">${dirName}</li>
                 `;
-			}
+		}
 
-			breadcrumbHtml += `
+		breadcrumbHtml += `
             <li class="breadcrumb-item active-list" aria-current="page">${jsName}</li>
             `;
 
-			$('#breadcrumbNav .breadcrumb').html(breadcrumbHtml);
+		$('#breadcrumbNav .breadcrumb').html(breadcrumbHtml);
+		//	$('.about-us-div').remove();
+		loadScriptContent(jsName, dirName);
 
-			loadScriptContent(jsName, dirName);
-		} else if (contentType === 'about-us') {
-			$('#breadcrumbNav').hide();
-			  loadAboutUsPage($('#editor-container'));
-		}
+
 	});
 
-	/*$(document).on('click', '.file-item', function(event) {
-		console.log("Its working 11");
-		event.stopPropagation();
-		var clickedItem = $(this);
-
-
-		$('#breadcrumbNav').hide();
-
-		jsName = clickedItem.text();
-		dirName = clickedItem.data('heading');
-
-
-		$.ajax({
-			url: `scriptmanager?action=getRespFileScriptContent&jsFileName=${jsName}&heading=${dirName}`,
-			type: 'GET',
-			dataType: 'json',
-			success: function(response) {
-				hookScriptContent = response.hookScriptContent;
-				editor.setOption('lineNumbers', true);
-				editor.setValue(hookScriptContent);
-			},
-			error: function(error) {
-				console.error('Error occurred while fetching script content:', error);
-			}
-		});
-
-	});*/
+	
 
 	document.addEventListener('DOMContentLoaded', function() {
 		const bar = document.querySelector('.split__bar');
@@ -325,6 +277,7 @@ $(document).ready(function() {
 
 
 	$(document).on('click', '#saveButton', function() {
+		console.log("save button is working");
 		$('.loader').removeClass('hidden');
 		saveHookScriptContent();
 		setTimeout(function() {
@@ -421,8 +374,8 @@ function deleteFile(filename, dirname, callback) {
 }
 
 function saveHookScriptContent() {
-	console.log("dirsname",dirName);
-	console.log("jssname",jsName);
+	console.log("dirsname", dirName);
+	console.log("jssname", jsName);
 	var scriptContent = editor.getValue();
 	$.ajax({
 		url: 'scriptmanager?action=updatedScriptContent',
@@ -435,7 +388,6 @@ function saveHookScriptContent() {
 		},
 		success: function(response) {
 			if (response && response.status === "success") {
-				//console.log("Modified Script Updated to Specific Js File", response);
 			} else {
 				console.error('Error occurred while updating script content:', response);
 			}
@@ -515,15 +467,15 @@ for (i = 0; i < acc.length; i++) {
 
 function loadScriptContent(jsName, dirName) {
 	console.log("LoadScriptContent Its Working");
-	console.log("jsname",jsName);
-	console.log("dirname",dirName)
+	console.log("jsname", jsName);
+	console.log("dirname", dirName)
 	$.ajax({
 		url: `scriptmanager?action=getRespFileScriptContent&jsFileName=${jsName}&heading=${dirName}`,
 		type: 'GET',
 		dataType: 'json',
 		success: function(response) {
 			hookScriptContent = response.hookScriptContent;
-			//$('#editor-container').show();
+			resetEditor();
 			editor.setOption('lineNumbers', true);
 			editor.setValue(hookScriptContent);
 		},
@@ -534,13 +486,21 @@ function loadScriptContent(jsName, dirName) {
 }
 
 function loadAboutUsPage(editorContainer) {
-	console.log("its working 1");
+	$('#breadcrumbNav').hide();
+	console.log("Loading about us page");
 	var aboutUsContent = `
-        <h1>About Us</h1>
-        <p>Welcome to our website! We are dedicated to providing high-quality services...</p>
-        <p>Feel free to contact us if you have any questions or inquiries.</p>
+        <div class="about-us-div">
+            <h1>About Us</h1>
+            <p>Welcome to our website! We are dedicated to providing high-quality services...</p>
+            <p>Feel free to contact us if you have any questions or inquiries.</p>
+        </div>
     `;
 
+	
 	editorContainer.html(aboutUsContent);
 }
-
+function resetEditor() {
+    $('#editor-container').empty();
+    initializeEditor();
+    
+}
