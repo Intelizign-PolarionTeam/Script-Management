@@ -12,7 +12,7 @@ function initializeEditor() {
 	editor = CodeMirror(editorElement, {
 		mode: "javascript",
 		theme: "default",
-		gutters: ["CodeMirror-lint-markers"], 
+		gutters: ["CodeMirror-lint-markers"],
 		lineNumbers: false
 	});
 	editor.setSize("990px", "650px");
@@ -82,7 +82,7 @@ var contextMenuOptions = {
 
 
 function initialLoad() {
-
+	loadAboutUsPage($('#editor-container'));
 	$('[data-toggle="tooltip"]').tooltip();
 	$.contextMenu(contextMenuOptions);
 	$.ajax({
@@ -241,7 +241,7 @@ $(document).ready(function() {
 
 	});
 
-	
+
 
 	document.addEventListener('DOMContentLoaded', function() {
 		const bar = document.querySelector('.split__bar');
@@ -489,18 +489,38 @@ function loadAboutUsPage(editorContainer) {
 	$('#breadcrumbNav').hide();
 	console.log("Loading about us page");
 	var aboutUsContent = `
-        <div class="about-us-div">
-            <h1>About Us</h1>
-            <p>Welcome to our website! We are dedicated to providing high-quality services...</p>
-            <p>Feel free to contact us if you have any questions or inquiries.</p>
-        </div>
-    `;
+    <div class="about-us-div">
+        <h1 style="color:#005F87;">About Us</h1>
+        <ul>
+            <li>Intelizign Lifecycle Services Providing Polarion Services</li>
+        </ul>
+        <h1 style="color:#005F87;">How to use</h1>
+        <ul>
+            <li>Download <b>Intelizign-LiveDoc-Save-Plugin</b> & <b>FMC-WorkItem-Save-Plugin</b></li>
+            <li>Create scripts directory From Following Path<b>"[C:\\Polarion\\]"</b></li>
+            <li>create <b>documentsave</b> directory and <b>workitemsave</b> directory from following path<b>"[C:\\Polarion\\scripts\\]"</b></li>
+            <li>Workflow condition function script added in scripts directory</li>
+            <li>Workitem Object Validation Script added in <b>workitemsave</b> directory</li>
+             <li>Document Object Validation Script added in <b>documentsave</b> directory</li>
+            <li>Extract above Plugins</li>
+            <li>Deploy To polarion extension Directory <b>"[C:\\Polarion\\polarion\\extensions\\myPlugins\\eclipse\\plugins\\extracted Plugin Folder\\]"</b></li>
+            <li>Delete .config, and metadata directory from following path <b>"[C:\\Polarion\\data\\workspace\\]"</b></li>
+        </ul>
+        <h4 style="color:#005F87;">Note</h4>
+        <ul>
+        <li>create folder name same as what above mentioned </li>
+        <li>Above Plugin must be deployed in Polarion server</li>
+        </ul>
+    </div>
+`;
 
-	
+
+
+
 	editorContainer.html(aboutUsContent);
 }
 function resetEditor() {
-    $('#editor-container').empty();
-    initializeEditor();
-    
+	$('#editor-container').empty();
+	initializeEditor();
+
 }
