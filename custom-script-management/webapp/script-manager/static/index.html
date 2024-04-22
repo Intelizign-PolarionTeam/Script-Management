@@ -11,113 +11,94 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/default.min.css">
-
 </head>
 
 <body>
 	<div class="split">
-		<div class="split__left" id="sidebar" style="background-color: #2D373C;position: sticky;">
+		<div class="split__left" id="sidebar" style="background-color: #2D373C; position: sticky;">
 			<div class="script-management-container-div scroll-bar">
 				<div id="sidebar-header" style="position: sticky;">
-					<div class="d-flex justify-content-between align-items-center">
+					<div class="d-flex  align-items-center">
 						<h3 style="margin-top: 0px; font-size: 20px; color: white;">Script Management</h3>
-						<a href="#" class="btn btn-info btn-lg info-button" data-content-type="about-us">
-							<span class="glyphicon glyphicon-info-sign" ></span> Info
+						<a href="#" id="infoIcon" class="info-button" data-content-type="about-us">
+							<i class="fas fa-info-circle fa-stack fa-2 info-style" data-toggle="tooltip"
+								title="About Us"></i>
 						</a>
 					</div>
 				</div>
-
-
+				<span class="icon file"> <input type="file" id="fileInput-workitemsave" data-heading="workitemsave"
+						data-input-target="fileInput-workitemsave" style="display: none;" accept=".js" />
+				</span>
 				<div class="koh-tab-content" style="margin-top: 10px;">
 					<div class="koh-tab-content-body">
 						<div id="project-tree" class="koh-faq">
-							<button class="accordion">
+							<div class="accordion">
 								<span class="open"> <i class="fa fa-angle-right"></i></span>
 								<span class="_close"><i class="fa fa-angle-down"></i></span>
-								<span style="font-size: 14px; margin:0px">Workitem Save Scripts</span>
+								<span style="font-size: 14px; margin: 0px">Workitem Save Scripts</span>
 								<span class="icon file">
-									<i id=" plusIcon" class="fa fa-file-o summary-icon" data-heading="workitemsave"
+									<i id=" plusIcon" class="fa fa-file-o summary-icon " data-heading="workitemsave"
 										data-toggle="tooltip" title="Create new file"></i>
 									<i class="fas fa-upload upload-icon file-input" data-heading="workitemsave"
 										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
-										title="Upload new file" style="margin-left: 4px;"></i></span>
-								<span class="icon file">
-									<input type="file" id="fileInput-workitemsave" data-heading="workitemsave"
-										data-input-target="fileInput-workitemsave" style="display: none;"
-										accept=".js" /></span>
-							</button>
+										title="Upload new file" style="margin-left: 1px;"></i>
+								</span>
+							</div>
 							<div class="panel">
 								<ul class="file-list folder" id="workitemsave-file"
-									style="background-color: white;padding: 0px">
+									style="background-color: white; padding: 0px">
 								</ul>
 							</div>
+
+
 							<button class="accordion">
-								<span class="open"> <i class="fa fa-angle-right"></i></span>
-								<span class="_close"><i class="fa fa-angle-down"></i></span>
-								<span style="font-size: 14px; margin:0px">Workflow Scripts</span>
-								<span class="icon file"><i class="fa fa-file-o summary-icon" data-heading="scripts"
-										data-toggle="tooltip" title="Create new file"
-										style="margin-left: -35px;"></i></span>
-								<span class="icon file"><i id="plusIcon1"
-										class="fas fa-upload upload-icon workflow-summary file-input"
+								<span class="open"> <i class="fa fa-angle-right"></i>
+								</span>
+								<span class="_close">
+									<i class="fa fa-angle-down"></i>
+								</span>
+								<span style="font-size: 14px; margin: 0px">Workflow Scripts</span>
+								<span class="icon file">
+									<i class="fa fa-file-o summary-icon" data-heading="scripts" data-toggle="tooltip"
+										title="Create new file" style="margin-left: -35px;"></i>
+									<i id="plusIcon1" class="fas fa-upload upload-icon file-input"
 										data-heading="scripts" data-input-target="fileInput-workitemsave"
 										data-toggle="tooltip" title="Upload new file"></i>
 								</span>
 							</button>
 							<div class="panel">
 								<ul class="file-list folder" id="scripts-file"
-									style="background-color: white;padding: 0px">
+									style="background-color: white; padding: 0px">
 								</ul>
 							</div>
 							<button class="accordion">
-								<span class="open"> <i class="fa fa-angle-right"></i></span>
-								<span class="_close"><i class="fa fa-angle-down"></i></span>
-								<span style="font-size: 14px; margin:0px">Document Save Scripts</span>
-								<span class="icon file"><i id="plusIcon2" class="fa fa-file-o summary-icon"
-										data-heading="documentsave" data-toggle="tooltip" title="Create new file"
-										style="margin-left: -35px;"></i></span>
-								<span class="icon file"><i class="fas fa-upload upload-icon file-input"
-										data-heading="documentsave" data-input-target="fileInput-workitemsave"
-										data-toggle="tooltip" title="Upload new file"></i></span>
+								<span class="open"> <i class="fa fa-angle-right"></i>
+								</span>
+								<span class="_close"><i class="fa fa-angle-down"></i>
+								</span>
+								<span style="font-size: 14px; margin: 0px">Document Save Scripts</span>
+								<span class="icon file">
+									<i id="plusIcon2" class="fa fa-file-o summary-icon" data-heading="documentsave"
+										data-toggle="tooltip" title="Create new file" style="margin-left: -35px;"></i>
+									<i class="fas fa-upload upload-icon file-input" data-heading="documentsave"
+										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
+										title="Upload new file"></i>
+								</span>
 							</button>
 							<div class="panel">
 								<ul class="file-list folder" id="documentsave-file"
-									style="background-color: white;padding: 0px">
+									style="background-color: white; padding: 0px">
 								</ul>
 							</div>
-
 						</div>
-					</div>
-				</div>
-				<div id="contentFooter">
-					<div class="footer-main-div">
-						<table class="footer-table">
-							<tr>
-
-								<td class="footer-info-td" style="width:40%">
-									<p class="footer-info-text" style="margin-top: 500px;">
-									<h6 style="color: white; font-size: 14px;">Developed by</h6>
-									<i class="fa fa-globe" style="font-size:18px; margin-right: 8px"></i>
-									<a class="footer-info-text footer-font-size " style="color: white;"
-										href="https://intelizign.com/teamcenter-polarion-alm-services/"
-										target="_blank">Intelizign Engineering Services GmbH</a>
-									</p>
-									<!--<p class="footer-info-text">
-                        <i class="fa fa-envelope-o" style="font-size:16px; margin-right: 8px"></i>
-                        <a class="footer-info-text footer-font-size" href="mailto:polarion.services@intelizign.com" target="_blank">polarion.services@intelizign.com</a class="footer-info-text">
-                     </p>-->
-								</td>
-							</tr>
-						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="split__bar" id="split__bar"></div>
-		<div class="split__right" id="editor-wrapper">
+		<div class="split__bar"></div>
+		<div class="split__right scroll-bar" id="editor-wrapper" style:"overflow-x:scroll;">
 			<!--	<div id="editor" -->
-			<nav aria-label="breadcrumb" id="breadcrumbNav" style="display: none;">
+			<nav aria-label="breadcrumb" id="breadcrumbNav" style="display:none">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a>polarion</a></li>
 					<li class="breadcrumb-item"><a>Library</a></li>
@@ -127,44 +108,116 @@
 					<button id="saveButton" class="save-btn-span-class" onclick="saveHookScriptContent()">Save</button>
 				</div>
 			</nav>
-
-			<div id="editor-container"  style="display: block;"></div>
-
-		</div>
-
-	</div>
-
-	<div id="popupContainer" style="display:none">
-		<div id="popup">
-			<h2 id="popupTitle">Create File</h2>
-			<input type="text" id="fileNameInput" class="form-control" placeholder="Enter file name">
-			<div id="buttons"><button id="createBtn" class="popup-button">Create</button>
-				<button id="closeBtn" class="popup-button">Close</button>
+			<div id="editor-container" style="display: none;"></div>
+				<div id="about-us-div" style="padding:10px; display:none;">
+					<header>
+						<h3 style="color:#005F87;">Welcome to Script Management Plugin</h3>
+					</header>
+					<main>
+						<section class="getting-started">
+							<p>The Script Management Extension for Polarion is a comprehensive solution designed to
+								empower polarion administrators in efficiently managing and customizing script files
+								within the Polarion platform.</p>
+							<div style="display:flex">
+								<div class="card bg-light mb-3 m-2" style="max-width: 18rem;">
+									<div class="card-header">Header</div>
+									<div class="card-body">
+										<h5 class="card-title">Light card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up the bulk of the card's content.</p>
+									</div>
+								</div>
+								<div class="card bg-light mb-3 m-2" style="max-width: 18rem;">
+									<div class="card-header">Header</div>
+									<div class="card-body">
+										<h5 class="card-title">Light card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up the bulk of the card's content.</p>
+									</div>
+								</div>
+								<div class="card bg-light mb-3 m-2" style="max-width: 18rem;">
+									<div class="card-header">Header</div>
+									<div class="card-body">
+										<h5 class="card-title">Light card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up the bulk of the card's content.</p>
+									</div>
+								</div>
+								<div class="card bg-light mb-3 m-2" style="max-width: 18rem;">
+									<div class="card-header">Header</div>
+									<div class="card-body">
+										<h5 class="card-title">Light card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up the bulk of the card's content.</p>
+									</div>
+								</div>
+							</div>
+							<h6 style="color:#005F87;">Developed By- Intelizign Engineering Services GmbH</h6>
+							<p>Website: <a href="https://intelizign.com/teamcenter-polarion-alm-services/"
+									target="_blank">Intelizign Engineering Services GmbH</a></p>
+							<p>Contact: <a href="mailto:polarion.services@intelizign.com"
+									target="_blank">polarion.services@intelizign.com</a></p>
+							<p>Welcome to our plugin! Get started by creating a new file or editing an existing files.
+							</p>
+						</section>
+						<section class="features">
+							<h3 style="color:#005F87;">Key Features</h3>
+							<ul>
+								<li>Create, edit, and save files</li>
+								<li>Rename and delete existing files</li>
+								<li>Upload new files </li>
+							</ul>
+						</section>
+						<h3 style="color:#005F87;">How to use</h1>
+							<ul>
+								<li>Download <b>Intelizign-LiveDoc-Save-Plugin</b> & <b>FMC-WorkItem-Save-Plugin</b>
+								</li>
+								<li>Create scripts directory From Following Path<b>"[C:\\Polarion\\]"</b></li>
+								<li>create <b>documentsave</b> directory and <b>workitemsave</b> directory from
+									following path<b>"[C:\\Polarion\\scripts\\]"</b></li>
+								<li>Workflow condition function script added in scripts directory</li>
+								<li>Workitem Object Validation Script added in <b>workitemsave</b> directory</li>
+								<li>Document Object Validation Script added in <b>documentsave</b> directory</li>
+								<li>Extract above Plugins</li>
+								<li>Deploy To polarion extension Directory
+									<b>"[C:\\Polarion\\polarion\\extensions\\myPlugins\\eclipse\\plugins\\extracted
+										Plugin Folder\\]"</b></li>
+								<li>Delete .config, and metadata directory from following path
+									<b>"[C:\\Polarion\\data\\workspace\\]"</b></li>
+							</ul>
+					</main>
+				</div>
+			<div id="popupContainer" style="display: none">
+				<div id="popup">
+					<h2 id="popupTitle">Create File</h2>
+					<input type="text" id="fileNameInput" class="form-control" placeholder="Enter file name">
+					<div id="buttons">
+						<button id="createBtn" class="popup-button">Create</button>
+						<button id="closeBtn" class="popup-button">Close</button>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-
-	<div id="rename-popup-Container" style="display:none;">
-		<div id="rename-popup">
-			<h2>Rename File</h2>
-			<input type="text" id="rename-fileNameInput" class="form-control" placeholder="Rename File Name">
-			<div id="buttons"><button id="renameBtn" class="rename-popup-button">Rename</button>
-				<button id="closeBtn" class="popup-button">Close</button>
+			<div id="rename-popup-Container" style="display: none;">
+				<div id="rename-popup">
+					<h2>Rename File</h2>
+					<input type="text" id="rename-fileNameInput" class="form-control" placeholder="Rename File Name">
+					<div id="buttons">
+						<button id="renameBtn" class="rename-popup-button">Rename</button>
+						<button id="closeBtn" class="popup-button">Close</button>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-
-	<img class="loader hidden" src="/polarion/ria/images/progress.gif?buildId=20210920-1545-21_R2-be900ca2"
-		title="Please wait.">
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.js"></script>
-	<script src="https://kit.fontawesome.com/aa0406e945.js" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
-	<script src="./resources/script.js"></script>
-
-
+			<img class="loader hidden" src="/polarion/ria/images/progress.gif?buildId=20210920-1545-21_R2-be900ca2"
+				title="Please wait.">
+			<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.min.js"></script>
+			<script src="https://kit.fontawesome.com/aa0406e945.js" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
+			<script src="./resources/script.js"></script>
 </body>
 
 </html>

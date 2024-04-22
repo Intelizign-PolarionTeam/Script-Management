@@ -1,7 +1,8 @@
-
 var editor;
 var jsName;
 var dirName;
+var isFile = false;
+
 function initializeEditor() {
 	var editorElement = document.getElementById('editor-container');
 	if (!editorElement) {
@@ -15,15 +16,15 @@ function initializeEditor() {
 		gutters: ["CodeMirror-lint-markers"],
 		lineNumbers: false
 	});
-	editor.setSize("990px", "650px");
-
-
-	editor.on("change", function() {
-		console.log("Editor content changed");
-		saveHookScriptContent();
+	editor.setSize("990px", "750px");
+	editor.on("keyup", function() {
+		isFile = true;
 	});
 }
 
+function resetFileChangedFlag() {
+	isFile = false;
+}
 
 var contextMenuOptions = {
 	selector: '.file-item',
@@ -46,31 +47,39 @@ var contextMenuOptions = {
 
 		} else if (key === 'rename') {
 			$('#editor-container').hide();
+			$('#breadcrumbNav').hide();
 			$('#rename-popup-Container').show();
 			$('#rename-fileNameInput').val(filename).focus();
-
-
-
-			$('#rename-popup-Container').on('click', '#renameBtn', function() {
+			$('#rename-popup-Container').off('click', '#renameBtn').on('click', '#renameBtn', function() {
 				$('#rename-popup-Container').hide();
+				$('#breadcrumbNav').show();
 				var renameFilename = $('#rename-fileNameInput').val().trim();
-				console.log("Rename File Name is", renameFilename);
+				console.log("renameFilename", renameFilename);
 				if (isValidFilename(renameFilename)) {
 					if (isFileExists(renameFilename, dirname)) {
 						alert(`Filename already exists in the following destination directory ${dirname}.`);
-
 					} else {
 						$('.loader').removeClass('hidden');
+						var fileList = $('#' + dirname + '-file');
+
+						fileList.find(`li[data-name="${filename}"]`).remove();
+						var renameFileList = $('<li class="file-item" data-heading="' + dirname + '" data-name="' + renameFilename + '">' + renameFilename + '</li>');
+						fileList.append(renameFileList);
+
 						renameFile(filename, renameFilename, dirname, function() {
 							setTimeout(function() {
 								$('.loader').addClass('hidden');
+								renameFileList.click();
 							}, 2000);
 						});
 					}
 				} else {
 					alert("Invalid filename. Only filenames ending with '.js' are allowed.");
 				}
+				$('#editor-container').show();
 			});
+
+
 		}
 	},
 	items: {
@@ -78,11 +87,10 @@ var contextMenuOptions = {
 		rename: { name: "Rename" }
 	}
 };
-
-
-
+  
+  
 function initialLoad() {
-	loadAboutUsPage($('#editor-container'));
+	loadAboutUsPage();
 	$('[data-toggle="tooltip"]').tooltip();
 	$.contextMenu(contextMenuOptions);
 	$.ajax({
@@ -93,10 +101,6 @@ function initialLoad() {
 			const workItemHookMapObj = response.workItemHookMapObj;
 			const liveDocHookMapObj = response.liveDocHookMapObj;
 			const workFlowScriptMapObj = response.workFlowScriptMapObj;
-
-			console.log("workItemHookMapObj", workItemHookMapObj);
-			console.log("liveDocHookMapObj", liveDocHookMapObj);
-			console.log("workFlowScriptMapObj", workFlowScriptMapObj);
 			Object.keys(workItemHookMapObj).forEach(function(key) {
 				var workItemHookScriptName = workItemHookMapObj[key].jsName;
 				var dirName = "workitemsave";
@@ -125,142 +129,134 @@ function initialLoad() {
 	});
 }
 
-
-
 function setDelay() {
 	setTimeout(function() {
 		$('.loader').addClass('hidden');
+		$('#editor-container').hide();
+		$('#breadcrumbNav').hide();
 	}, 2000);
-}
+}  
+
+
 var jsName;
 var dirName;
 $(document).ready(function() {
 	initializeEditor();
 	initialLoad();
 	var uploadFoldername;
-	$('.upload-icon').click(function() {
+	$('.upload-icon').click(function(event) {
+		event.preventDefault();
+		event.stopPropagation();
 		var inputId = $(this).data('input-target').trim();
 		uploadFoldername = $(this).data('heading');
+		console.log("upload folder name",uploadFoldername);
 		console.log("inputId:", inputId);
 		$('#' + inputId).trigger('click');
+		console.log("Triggered Upload Button");
 	});
 
 
-	$(document).on('change', '#fileInput-workitemsave', function() {
-		var filename = $(this).val().split('\\').pop();
-		$('.loader').removeClass('hidden');
-		var fileList = $('#' + uploadFoldername + '-file');
-		var newListItem = $('<li class="file-item" data-heading="' + uploadFoldername + '" data-name="' + filename + '">' + filename + '</li>');
-		fileList.append(newListItem);
-		saveFile(filename, uploadFoldername, function() {
-			setTimeout(function() {
-				$('.loader').addClass('hidden');
-				newListItem.click();
-				//location.reload();
-			}, 2000);
-		});
+$(document).on('change', '#fileInput-workitemsave', function(event) {
+    console.log("Upload file is working");
+    var files = event.target.files; 
+    console.log("Files:", files);
 
-	});
+  
+    if (files.length > 0) {
+        var filename = files[0].name; 
+        console.log("upload filename", filename);
+        console.log("upload foldername", uploadFoldername);
+        
+        if (isFileExists(filename, uploadFoldername)) {
+            alert(`Filename already exists in the following destination directory ${uploadFoldername}.`);
+        } else {
+            $('.loader').removeClass('hidden');
+            var fileList = $('#' + uploadFoldername + '-file');
+            var newListItem = $('<li class="file-item" data-heading="' + uploadFoldername + '" data-name="' + filename + '">' + filename + '</li>');
+            fileList.append(newListItem);
+            console.log("Before Passing file to handle upload", files);
+            handleFileUpload(files, function(content) {
+                saveFile(filename, uploadFoldername, function() {
+                    setTimeout(function() {
+                        $('.loader').addClass('hidden');
+                        uploadedFileScriptContent(filename, uploadFoldername, content);
+                        newListItem.click();
+                        
+                        $('#fileInput-workitemsave').val('');
+                    }, 2000);
+                });
+            });
+        }
+    } else {
+        console.log("No files selected");
+    }
+});
 
-
-
-
-
-	var directoryName;
-	$(document).on('click', '.summary-icon', function() {
-		directoryName = $(this).data('heading');
-		console.log("create popup its working");
-		$('#editor-container').hide();
-		$('#popupContainer').show();
-		$('#fileNameInput').focus();
-		console.log("Directory name is" + directoryName);
-		$('#popupTitle').text("Create File - (" + directoryName + ")");
-	})
-
-	$('#popupContainer').on('click', '#createBtn', function() {
-		$('#popupContainer').hide();
-
-		var filename = $('#fileNameInput').val().trim();
-		if (isValidFilename(filename)) {
-			if (isFileExists(filename, directoryName)) {
-				alert(`Filename already exists in the following destination directory ${directoryName}.`);
-
-			} else {
-				$('.loader').removeClass('hidden');
-				var fileList = $('#' + directoryName + '-file');
-				var newListItem = $('<li class="file-item" data-heading="' + directoryName + '" data-name="' + filename + '">' + filename + '</li>');
-
-				fileList.append(newListItem);
-				saveFile(filename, directoryName, function() {
-					setTimeout(function() {
-						newListItem.click();
-						$('.loader').addClass('hidden');
-					}, 2000);
-				});
-			}
-		} else {
-			alert("Invalid filename. Only filenames ending with '.js' are allowed.");
-		}
-		$('#editor-container').show();
-	});
 
 	$('.info-button').click(function() {
 		$('#breadcrumbNav').hide();
 		console.log("info-button clicked");
-		loadAboutUsPage($('#editor-container'));
+		loadAboutUsPage();
 	});
 
 	$(document).on('click', '.file-item', function() {
-		console.log("Scripts  clicked");
-		jsName = $(this).text();
-		dirName = $(this).data('heading');
-		$('#breadcrumbNav').show();
-		var breadcrumbHtml = '';
-
-		if (dirName === "workitemsave" || dirName === "documentsave") {
-			breadcrumbHtml += `
-                <li class="breadcrumb-item"><a>polarion</a></li>
-                <li class="breadcrumb-item"><a>scripts</a></li>
-                <li class="breadcrumb-item active-list" aria-current="page">${dirName}</li>
-                `;
-		} else if (dirName === "scripts") {
-			breadcrumbHtml += `
-                <li class="breadcrumb-item"><a>polarion</a></li>
-                <li class="breadcrumb-item active-list" aria-current="page">${dirName}</li>
-                `;
+		var isContinue = true;
+		if (isFile) {
+			var _confirm = confirm("Discard changes?");
+			if (!_confirm) {
+				isContinue = false;
+			}
 		}
+		if (isContinue) {
+			resetFileChangedFlag();
+			jsName = $(this).text();
+			dirName = $(this).data('heading');
+			$('#breadcrumbNav').show();
+			$('#editor-container').css('margin-top', '40px');
+			$('#editor-container').show();
+			$('#about-us-div').hide();
+			var breadcrumbHtml = '';
+			if (dirName === "workitemsave" || dirName === "documentsave") {
+				breadcrumbHtml += `
+			<li class="breadcrumb-item"><a>polarion</a></li>
+			<li class="breadcrumb-item"><a>scripts</a></li>
+			<li class="breadcrumb-item active-list" aria-current="page">${dirName}</li>
+                `;
+			} else if (dirName === "scripts") {
+				breadcrumbHtml += `
+			<li class="breadcrumb-item"><a>polarion</a></li>
+			<li class="breadcrumb-item active-list" aria-current="page">${dirName}</li>
+                `;
+			}
 
-		breadcrumbHtml += `
-            <li class="breadcrumb-item active-list" aria-current="page">${jsName}</li>
+			breadcrumbHtml += `
+			<li class="breadcrumb-item active-list" aria-current="page">${jsName}</li>
             `;
 
-		$('#breadcrumbNav .breadcrumb').html(breadcrumbHtml);
-		//	$('.about-us-div').remove();
-		loadScriptContent(jsName, dirName);
-
-
+			$('#breadcrumbNav .breadcrumb').html(breadcrumbHtml);
+			loadScriptContent(jsName, dirName);
+		}
 	});
 
 
+	const bar = document.querySelector('.split__bar');
+	const left = document.querySelector('.split__left');
+	const right = document.querySelector('.split__right');
+	let isMouseDown = false;
 
-	document.addEventListener('DOMContentLoaded', function() {
-		const bar = document.querySelector('.split__bar');
-		const left = document.querySelector('.split__left');
-		let mouseIsDown = false;
-
-		bar.addEventListener('mousedown', function(e) {
-			mouseIsDown = true;
-		});
-
-		document.addEventListener('mousemove', function(e) {
-			if (!mouseIsDown) return;
-			left.style.width = e.clientX + 'px';
-		});
-
-		document.addEventListener('mouseup', function() {
-			mouseIsDown = false;
-		});
+	bar.addEventListener('mousedown', (e) => {
+		isMouseDown = true;
 	});
+
+	document.addEventListener('mousemove', (e) => {
+		if (!isMouseDown) return;
+		left.style.width = `${e.clientX}px`;
+	});
+
+	document.addEventListener('mouseup', () => {
+		isMouseDown = false;
+	});
+
 
 	document.addEventListener('DOMContentLoaded', function() {
 		var summaries = document.querySelectorAll('.summary');
@@ -275,7 +271,6 @@ $(document).ready(function() {
 	});
 
 
-
 	$(document).on('click', '#saveButton', function() {
 		console.log("save button is working");
 		$('.loader').removeClass('hidden');
@@ -286,21 +281,18 @@ $(document).ready(function() {
 	});
 
 
-
 	$(document).on('click', '#closeBtn', function() {
 		$('#popupContainer').hide();
-		$('#editor-container').show()
-	});
-
-
-	$(document).on('click', '#closeBtn', function() {
+		$('#editor-container').show();
+		$('#breadcrumbNav').show();
 		$('#rename-popup-Container').hide();
 	});
+
+
 });
 
 
 function isFileExists(filename, directoryName) {
-	console.log("File Exist");
 	var existingFiles = $('.file-item[data-heading="' + directoryName + '"]');
 	for (var i = 0; i < existingFiles.length; i++) {
 		if (existingFiles[i].textContent.trim() === filename) {
@@ -310,13 +302,12 @@ function isFileExists(filename, directoryName) {
 	return false;
 }
 
-
-
 function isValidFilename(filename) {
 	return /\.js$/.test(filename);
 }
 
 function saveFile(filename, foldername, callback) {
+	isFile = false;
 	$.ajax({
 		url: 'scriptmanager?action=saveFileName',
 		type: 'POST',
@@ -336,24 +327,39 @@ function saveFile(filename, foldername, callback) {
 	});
 }
 
+function uploadedFileScriptContent(jsName, dirName, content) {
+	console.log("dirsname", dirName);
+	console.log("jssname", jsName);
+	console.log("uploaded script content", content);
+	$.ajax({
+		url: 'scriptmanager?action=updatedScriptContent',
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			hookScriptContent: content,
+			heading: dirName,
+			jsName: jsName
+		},
+		success: function(response) {
+			if (response && response.status === "success") {
+			} else {
+				console.error('Error occurred while updating script content:', response);
+			}
+		},
+		error: function(xhr, status, error) {
+			console.error('Error occurred while updating script content:', status, error);
+			console.log(xhr.responseText);
+		}
+	});
+}
 function deleteFile(filename, dirname, callback) {
-	console.log("filename", filename);
-	console.log("dirname", dirname);
-
-
 	var fileList = $('#' + dirname + '-file');
-
-
 	var listItem = fileList.find('.file-item[data-name="' + filename + '"]');
-
-
 	if (listItem.length > 0) {
 		listItem.remove();
 	} else {
 		console.warn('File item not found:', filename);
 	}
-
-
 	$.ajax({
 		url: 'scriptmanager?action=deleteFile',
 		type: 'POST',
@@ -374,6 +380,7 @@ function deleteFile(filename, dirname, callback) {
 }
 
 function saveHookScriptContent() {
+	isFile = false;
 	console.log("dirsname", dirName);
 	console.log("jssname", jsName);
 	var scriptContent = editor.getValue();
@@ -400,70 +407,103 @@ function saveHookScriptContent() {
 }
 
 
-
 function renameFile(existingfilename, newfilename, dirname, callback) {
 	console.log("dir name is..." + dirname + existingfilename + newfilename);
-
-
-	var listItem = $('.file-item[data-heading="' + dirname + '"][data-name="' + existingfilename + '"]');
-
-	if (listItem.length > 0) {
-		listItem.attr('data-name', newfilename).text(newfilename);
-
-		$.ajax({
-			url: 'scriptmanager?action=renameFileName',
-			type: 'POST',
-			data: {
-				existingfilename: existingfilename,
-				newfilename: newfilename,
-				dirname: dirname
-			},
-			success: function(response) {
-				console.log('File renamed successfully:', response);
-				if (callback && typeof callback === 'function') {
-					callback();
-				}
-			},
-			error: function(error) {
-				console.error('Error occurred while renaming file:', error);
+	$.ajax({
+		url: 'scriptmanager?action=renameFileName',
+		type: 'POST',
+		data: {
+			existingfilename: existingfilename,
+			newfilename: newfilename,
+			dirname: dirname
+		},
+		success: function(response) {
+			console.log('File renamed successfully:', response);
+			if (callback && typeof callback === 'function') {
+				callback();
 			}
-		});
-	} else {
-		console.error('File item not found:', existingfilename);
-	}
-}
-var acc = document.getElementsByClassName("accordion");
-var i;
-for (i = 0; i < acc.length; i++) {
-	acc[i].addEventListener("click", function() {
-		this.classList.toggle("active");
-		var panel = this.nextElementSibling;
-		var arrowOpen = this.children[0];
-		var arrowClose = this.children[1];
-		var iconFile = [];
-
-		for (var j = 0; j < this.children.length; j++) {
-			if (this.children[j].classList.value.includes("icon")) {
-				iconFile.push(this.children[j]);
-			}
-		}
-		if (panel.style.display === "block") {
-			panel.style.display = "none";
-			arrowOpen.style.display = "inline-block";
-			arrowClose.style.display = "none";
-			for (var k = 0; k < iconFile.length; k++) {
-				iconFile[k].style.display = "none";
-			}
-		} else {
-			panel.style.display = "block";
-			arrowOpen.style.display = "none";
-			arrowClose.style.display = "inline-block";
-			for (var k = 0; k < iconFile.length; k++) {
-				iconFile[k].style.display = "block";
-			}
+		},
+		error: function(error) {
+			console.error('Error occurred while renaming file:', error);
 		}
 	});
 }
+
+var acc = document.getElementsByClassName("accordion");
+var i;
+for (i = 0; i < acc.length; i++) {
+	acc[i].addEventListener("click", function(event) {
+		if (!event.target.classList.contains("summary-icon")) {
+			this.classList.toggle("active");
+			var panel = this.nextElementSibling;
+			var arrowOpen = this.querySelector('.open');
+			var arrowClose = this.querySelector('._close');
+			var iconFile = this.querySelector('.icon');
+
+			if (panel.style.display === "block") {
+				panel.style.display = "none";
+				arrowOpen.style.display = "inline-block";
+				arrowClose.style.display = "none";
+				iconFile.style.display = "none";
+			} else {
+				panel.style.display = "block";
+				arrowOpen.style.display = "none";
+				arrowClose.style.display = "inline-block";
+				iconFile.style.display = "block";
+			}
+		}
+		event.stopPropagation();
+	});
+}
+var directoryName;
+
+var createFileIcons = document.querySelectorAll('.summary-icon');
+
+createFileIcons.forEach(function(createFileIcon) {
+	createFileIcon.addEventListener('click', function(event) {
+		event.stopPropagation();
+		directoryName = $(this).data('heading');
+		console.log("create popup its working");
+		$('#editor-container').hide();
+		$('#breadcrumbNav').hide();
+		$('#popupContainer').show();
+		$('#fileNameInput').focus();
+		console.log("Directory name is" + directoryName);
+		$('#popupTitle').text("Create File - (" + directoryName + ")");
+	});
+});
+
+
+$('#popupContainer').on('click', '#createBtn', function() {
+	isFile = false;
+	$('#popupContainer').hide();
+	$('#breadcrumbNav').show();
+	var filename = $('#fileNameInput').val().trim();
+	console.log("filename", filename);
+	if (isValidFilename(filename)) {
+		if (isFileExists(filename, directoryName)) {
+			alert(`Filename already exists in the following destination directory ${directoryName}.`);
+		} else {
+			$('.loader').removeClass('hidden');
+			var fileList = $('#' + directoryName + '-file');
+			var newListItem = $('<li class="file-item" data-heading="' + directoryName + '" data-name="' + filename + '">' + filename + '</li>');
+
+			fileList.append(newListItem);
+			saveFile(filename, directoryName, function() {
+				setTimeout(function() {
+					newListItem.click();
+					$('.loader').addClass('hidden');
+				}, 2000);
+			});
+		}
+	} else {
+		alert("Invalid filename. Only filenames ending with '.js' are allowed.");
+	}
+	$('#editor-container').show();
+});
+
+
+
 
 function loadScriptContent(jsName, dirName) {
 	console.log("LoadScriptContent Its Working");
@@ -485,42 +525,53 @@ function loadScriptContent(jsName, dirName) {
 	});
 }
 
-function loadAboutUsPage(editorContainer) {
+function loadAboutUsPage() {
 	$('#breadcrumbNav').hide();
+	$('#editor-container').hide();
+	$('#editor-container').css('margin-top', '0px');
 	console.log("Loading about us page");
-	var aboutUsContent = `
-    <div class="about-us-div">
-        <h1 style="color:#005F87;">About Us</h1>
-        <ul>
-            <li>Intelizign Lifecycle Services Providing Polarion Services</li>
-        </ul>
-        <h1 style="color:#005F87;">How to use</h1>
-        <ul>
-            <li>Download <b>Intelizign-LiveDoc-Save-Plugin</b> & <b>FMC-WorkItem-Save-Plugin</b></li>
-            <li>Create scripts directory From Following Path<b>"[C:\\Polarion\\]"</b></li>
-            <li>create <b>documentsave</b> directory and <b>workitemsave</b> directory from following path<b>"[C:\\Polarion\\scripts\\]"</b></li>
-            <li>Workflow condition function script added in scripts directory</li>
-            <li>Workitem Object Validation Script added in <b>workitemsave</b> directory</li>
-             <li>Document Object Validation Script added in <b>documentsave</b> directory</li>
-            <li>Extract above Plugins</li>
-            <li>Deploy To polarion extension Directory <b>"[C:\\Polarion\\polarion\\extensions\\myPlugins\\eclipse\\plugins\\extracted Plugin Folder\\]"</b></li>
-            <li>Delete .config, and metadata directory from following path <b>"[C:\\Polarion\\data\\workspace\\]"</b></li>
-        </ul>
-        <h4 style="color:#005F87;">Note</h4>
-        <ul>
-        <li>create folder name same as what above mentioned </li>
-        <li>Above Plugin must be deployed in Polarion server</li>
-        </ul>
-    </div>
-`;
-
-
-
-
-	editorContainer.html(aboutUsContent);
+	$('#about-us-div').css('display', 'block');
 }
+
 function resetEditor() {
 	$('#editor-container').empty();
 	initializeEditor();
 
 }
+function handleFileUpload(files, callback) {
+    try {
+        console.log("Files", files);
+        const file = files[0];
+        console.log("File is", file);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const content = e.target.result;
+            callback(content);
+        };
+        reader.readAsText(file);
+    } catch (error) {
+        console.error("Error handling file upload:", error);
+    }
+}
+
+const bar = document.querySelector('.split__bar');
+const left = document.querySelector('.split__left');
+const right = document.querySelector('.split__right');
+let isMouseDown = false;
+
+bar.addEventListener('mousedown', (e) => {
+    isMouseDown = true;
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isMouseDown) return;
+    const leftWidth = e.clientX;
+    const totalWidth = window.innerWidth;
+    const percentage = (leftWidth / totalWidth) * 100;
+    left.style.width = `${percentage}%`;
+});
+
+document.addEventListener('mouseup', () => {
+    isMouseDown = false;
+});
+

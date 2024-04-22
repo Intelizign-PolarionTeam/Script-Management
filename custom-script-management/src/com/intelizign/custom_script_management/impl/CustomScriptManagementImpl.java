@@ -4,14 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -22,23 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intelizign.custom_script_management.service.CustomScriptManagementService;
-import com.polarion.alm.tracker.ITrackerService;
-import com.polarion.alm.tracker.model.IApprovalStruct;
-import com.polarion.alm.tracker.model.ITrackerProject;
-import com.polarion.alm.tracker.model.IWorkItem;
 import com.polarion.core.util.logging.Logger;
-import com.polarion.platform.core.PlatformContext;
-import com.polarion.platform.persistence.UnresolvableObjectException;
-import com.polarion.platform.security.ISecurityService;
 
 public class CustomScriptManagementImpl implements CustomScriptManagementService {
 	private static final Logger log = Logger.getLogger(CustomScriptManagementService.class);
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	private String selectedHookScriptName;
-	private static final ITrackerService trackerService = (ITrackerService) PlatformContext.getPlatform()
-			.lookupService(ITrackerService.class);
-	private static final ISecurityService securityService = (ISecurityService) PlatformContext.getPlatform()
-			.lookupService(ISecurityService.class);
 
 	/**
 	 * Retrieve the hook file from the current server, add it into a map object, and
@@ -66,13 +50,8 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 				Map<String, Object> responseObject = new LinkedHashMap<>();
 				addLiveDocHookFileToMapObj(req, resp, responseObject);
 				addWorkFlowScriptObjToMap(req, resp, responseObject);
-				// System.out.println("workFlowScriptMapObj"+workFlowScriptMapObj+"\n");
-				// System.out.println("liveDocHookMapObj"+liveDocHookMapObj+"\n");
 				responseObject.put("workItemHookMapObj", workItemHookMapObj);
-				//responseObject.put("liveDocHookMapObj", liveDocHookMapObj);
-				//responseObject.put("workFlowScriptMapObj", workFlowScriptMapObj);
 				String jsonResponse = objectMapper.writeValueAsString(responseObject);
-
 				resp.setContentType("application/json");
 				resp.getWriter().write(jsonResponse);
 			} else {
@@ -83,6 +62,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 
+	//Adding LiveDoc Hook File to the LiveDocHookMapObj
 	public void addLiveDocHookFileToMapObj(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> reponseObject) throws Exception {
 		String workitemSaveDirName = "documentsave";
 		File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
@@ -109,6 +89,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 
+	//Adding WorkFlow Script File to the workFlowScriptMapObj
 	public void addWorkFlowScriptObjToMap(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> responseObject) throws Exception {
 		String workitemSaveDirName = "scripts";
 		File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
@@ -137,6 +118,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 
 	// Access Script Folder
 	private File getHookScriptFolder(String hookDirName) {
+	try {
 		if (hookDirName.equals("scripts")) {
 			String filePath = System.getProperty("com.polarion.home") + "/../scripts/";
 			File hookScriptFile = new File(filePath);
@@ -146,12 +128,15 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 			File hookScriptFile = new File(filePath);
 			return hookScriptFile;
 		}
-
+	}catch(Exception e) {
+		log.error("Getting Erroe While Accessing Script File:"+e.getLocalizedMessage());
+		e.printStackTrace();
+		return null;
+	}
 	}
 
-	// Read prepost hook file
-	private StringBuilder readFileContent(File hookScriptFile, String hookScriptName) throws IOException {
-
+	// Read  hook file Content
+	private StringBuilder readFileContent(File hookScriptFile, String hookScriptName) throws Exception {
 		if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
 			AtomicInteger id = new AtomicInteger(0);
 
@@ -166,12 +151,13 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 				}
 			}
 		} else {
-			System.err.println("hookScriptFile is not a directory: " + hookScriptFile.getAbsolutePath());
+			log.error("hookScriptFile is not a directory: " + hookScriptFile.getAbsolutePath());
 		}
 
 		return null;
 	}
 
+	//Getting Respective File Content
 	@Override
 	public void getRespScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		selectedHookScriptName = req.getParameter("jsFileName");
@@ -197,6 +183,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		resp.getWriter().write(jsonResponse);
 	}
 
+	//Write Content to Our Actual File
 	private void writeFileContent(StringBuilder scriptContent, File hookScriptFile, String hookScriptName)
 			throws IOException {
 		if (hookScriptFile.exists() && hookScriptFile.isDirectory()) {
@@ -211,20 +198,19 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 				}
 			}
 		} else {
-			System.err.println("hookScriptFile is not a directory: " + hookScriptFile.getAbsolutePath());
+			log.error("hookScriptFile is not a directory: " + hookScriptFile.getAbsolutePath());
 		}
 
 	}
 
+	//Update Script File With New Content
 	@Override
 	public void updateHookScriptContent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 
 		String heading = req.getParameter("heading");
 		String jsName = req.getParameter("jsName");
-		String sucessMessage = "sucess";
 		StringBuilder sb = new StringBuilder();
-		sb = sb.append(req.getParameter("hookScriptContent"));
-		// System.out.println("Passed Content is:"+sb.toString()+"\n");
+		sb = sb.append(req.getParameter("hookScriptContent"));	
 		replaceExistingScriptContent(sb, heading, jsName);
 
 		resp.setContentType("application/json");
@@ -232,6 +218,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		
 	}
 
+	
 	private void replaceExistingScriptContent(StringBuilder sb, String heading, String jsName) throws Exception {
 		if (heading.equals("workitemsave")) {
 			File workItemSaveDir = getHookScriptFolder("workitemsave");
@@ -245,13 +232,13 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 
+	//Create Script File to Respective Folder
 	@Override
 	public void saveCreatedJsFiletoDir(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		try {
 
 			String fileName = req.getParameter("filename");
 			String dirName = req.getParameter("dirname");
-			// String directory = System.getProperty("com.polarion.home") + "/../scripts/";
 			File directory = getHookScriptFolder(dirName);
 			String filePath = directory.getPath() + File.separator + fileName;
 			File hookScriptFile = new File(filePath);
@@ -268,6 +255,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 
 	}
 
+	//Rename Existing Script File to respective Directory
 	@Override
 	public void renameExistingJsFiletoDir(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		try {
@@ -303,6 +291,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		}
 	}
 	
+	//Delete Existing Script File on Respective Folder
 	@Override
 	public void deleteJsFileFromDir(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 	    try {

@@ -1,12 +1,7 @@
 package com.intelizign.custom_script_management.servlet;
 
-import com.polarion.platform.service.repository.IRepositoryService;
 import com.intelizign.custom_script_management.impl.CustomScriptManagementImpl;
 import com.intelizign.custom_script_management.service.CustomScriptManagementService;
-import com.polarion.alm.tracker.ITrackerService;
-import com.polarion.platform.IPlatformService;
-import com.polarion.platform.ITransactionService;
-import com.polarion.platform.core.PlatformContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.polarion.core.util.logging.Logger;
@@ -18,14 +13,7 @@ public class CustomScriptManagementServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(CustomScriptManagementServlet.class);
-	private static final ITrackerService trackerService = (ITrackerService) PlatformContext.getPlatform()
-			.lookupService(ITrackerService.class);
-	private static final ITransactionService transactionService = (ITransactionService) PlatformContext.getPlatform()
-			.lookupService(ITransactionService.class);
-	private static final IRepositoryService repositoryService = (IRepositoryService) PlatformContext.getPlatform()
-			.lookupService(IRepositoryService.class);
-	private static final IPlatformService platformService = (IPlatformService) PlatformContext.getPlatform()
-			.lookupService(IPlatformService.class);
+	
 
 	private CustomScriptManagementService customScriptManagementService;
 
@@ -65,9 +53,8 @@ public class CustomScriptManagementServlet extends HttpServlet {
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		String action = req.getParameter("action");
 		try {
+			String action = req.getParameter("action");
 			if (action != null) {
 				switch (action) {
 				case "getHookMapObj":
@@ -86,7 +73,7 @@ public class CustomScriptManagementServlet extends HttpServlet {
 		}
 		} catch (Exception e) {
 			log.error("Exception is" + e.getMessage());
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
