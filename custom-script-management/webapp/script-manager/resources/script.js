@@ -33,8 +33,6 @@ var contextMenuOptions = {
 			var confirmDelete = confirm("Are you sure you want to delete this file?");
 			if (confirmDelete) {
 				$('.loader').removeClass('hidden');
-				console.log("filenssame", filename);
-				console.log("dirnamsse", dirname);
 				deleteFile(filename, dirname, function() {
 					setDelay();
 				});
