@@ -24,6 +24,9 @@ html {
 	display: flex;
 	height: 100%;
 }
+h3,h5{
+	color:#005F87;
+}
 .summary {
 	margin: 0;
 	padding: 5px;
