@@ -94,13 +94,21 @@ h3,h5{
 {
     width: 100%;
     height: 100% !important;
-    overflow: hidden auto;
+    overflow: auto auto;
     scrollbar-width: thin;
+}
+
+.CodeMirror-vscrollbar{
+	overflow-y:hidden  !important;
+	}
+.CodeMirror-hscrollbar{
+	overflow-x:scroll !important;
+	scrollbar-width: thin !important;
 }
 .file-list li:hover {
 	background-color: #3c464b;
 }
-/* Styling for the split layout */
+
 .split {
 	overflow:hidden;
 	display: flex;
@@ -132,11 +140,12 @@ h3,h5{
 #editor-container {
 	/* position: fixed;
 	top:40px; */
-	width: calc(100% - 10px);
-	height:700px;
+	width: 100%;
+	height:100%;
 	border-radius: 5px;
 	box-sizing: border-box;
-	overflow-x:scroll bar;
+	overflow:auto auto !important;
+	
 }
  
 #aboutus-container {

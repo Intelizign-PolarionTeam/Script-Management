@@ -14,7 +14,7 @@ function initializeEditor() {
 		gutters: ["CodeMirror-lint-markers"],
 		lineNumbers: false
 	});
-	editor.setSize("990px", "750px");
+	editor.setSize("100%", "100%");
 	editor.on("keyup", function() {
 		isFile = true;
 	});
@@ -33,6 +33,8 @@ var contextMenuOptions = {
 			var confirmDelete = confirm("Are you sure you want to delete this file?");
 			if (confirmDelete) {
 				$('.loader').removeClass('hidden');
+				console.log("filenssame", filename);
+				console.log("dirnamsse", dirname);
 				deleteFile(filename, dirname, function() {
 					setDelay();
 				});

@@ -157,52 +157,43 @@
 						</div>
 					</section>
 					<section class="features">
-						<h3 style="color:#005F87;">Key Features</h3>
+						<h5 style="color:#005F87;">Key Features</h5>
 						<ul>
 							<li>
-								<strong>Create, Edit, and Save Files:</strong> Make new files, change them, and save
-								your work.
-							</li>
-							<li>
-								<strong>Rename and Delete Existing Files:</strong> Change file names or remove files
-								altogether.
-							</l>
-							<li>
-								<strong>Upload New Files:</strong> Add fresh content by putting new files into the
-								system.
+								Users can generate new script files directly within the editor.
+								Modify the content of existing script files with this editor.
+								Save changes locally or to a remote server to ensure all work is preserved.
+								Remove files that are no longer needed to keep the workspace organized.
+								Upload new script files from your local system to the plugin.
 							</li>
 						</ul>
 					</section>
-					<h3 style="color:#005F87;">How to use</h1>
-						<h5>Download Plugins:</h5>
-						<p>Download <b>Intelizign-LiveDoc-Save-Plugin</b> & <b>FMC-WorkItem-Save-Plugin</b>.</p>
-						<h5>Create Directories:</h5>
-						<p>Navigate to your Polarion installation directory.</p>
-						<p>Create a "scripts" directory inside: <code>[polarion_installation_path]\</code>
+					<h4 style="color:#005F87;">How to use</h4>
+						<h5>Required Plugins:</h5>
+						<p>Download <b>Intelizign-LiveDoc-Save-Plugin</b> & <b>FMC-WorkItem-Save-Plugin</b> from Polarion Extension Portal</p>
+						<h5>Custom Directory Naming Convention</h5>
+						<p>To create a directory named as <strong>scripts</strong> inside the following path: <code>[polarion_installation_path]\</code>
 						</p>
-						<p>Inside "scripts," create below Directory:</p>
+						<p>Inside "scripts," create Directory with below name:</p>
 						<ul>
-							<li>documentsave</li>
-							<li>workitemsave</li>
+							<li><b>documentsave</b></li>
+							<li><b>workitemsave</b></li>
 						</ul>
-						<h5>Add Scripts:</h5>
+						<h5>Deployment</h5>
 						<ul>
-							<li>Add Workflow condition function script to <b>scripts Dir</b>.</li>
-							<li>Add Workitem Object Validation Script to <b>workitemsave Dir</b>.</li>
-							<li>Add Document Object Validation Script to <b>documentsave Dir</b>.</li>
+						<li>Download <Strong>Intelizign-ScriptManagement </Strong> Plugin From Polarion Extension Portal</li>
+						<li>Copy the <Strong>custom-script-management_1.0.0.jar </Strong>From Intelizign-ScriptManagement Package</li>
+						<li>Stop Polarion Server</li>
+						<li>Deploy <b>custom-script-management_1.0.0.jar</b> to the following path
+						<code>
+								[polarion_installation_path]\polarion\extensions\your-folder-name\eclipse\plugins\]</code></li>
+						<li>Navigate to <code>[polarion_installation_path]\data\workspace\</code>
+						</li>
+						<li>Delete <b>.config</b> and <b>metadata</b> directories.</li>
+						<li>Start Polarion Server</li>
 						</ul>
-						<h5>Extract Plugins:</h5>
-						<p>Extract downloaded plugins to a temporary location.</p>
-						<h5>Deploy to Polarion Extension Directory:</h5>
-						<p>The <b>custom-script-management_1.0.0.jar</b> has been deployed by following this path<code>
-								[polarion_installation_path]\polarion\extensions\scriptManagementPlugin\eclipse\plugins\custom-script-management_1.0.0.jar</code>
-						</p>
-						<h5>Delete Files:</h5>
-						<p>Navigate to <code>[polarion_installation_path]\data\workspace\</code>
-						</p>
-						<p>Delete <b>.config</b> and <b>metadata</b> directories.</p>
 						<h5>Note</h5>
-						<p><code>*</code>Please ensure that you create the directory as mentioned above.<code>*</code>
+						<p><code>*</code>Please ensure that you create the directory same as mentioned above.<code>*</code>
 						</p>
 				</main>
 			</div>
