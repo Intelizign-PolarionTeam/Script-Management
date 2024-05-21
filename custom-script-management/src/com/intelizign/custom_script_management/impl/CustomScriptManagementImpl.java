@@ -320,9 +320,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 			String filename = req.getParameter("filename");
 			String dirName = req.getParameter("dirname");
 
-			System.out.println("Filename" + filename + "dirname" + dirName + "\n");
 			File directory = getHookScriptFolder(dirName);
-			System.out.println("Directory is" + directory + "\n");
 			File fileToDelete = new File(directory, filename);
 
 			if (fileToDelete.exists()) {

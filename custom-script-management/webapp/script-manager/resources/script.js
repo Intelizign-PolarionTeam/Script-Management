@@ -33,13 +33,11 @@ var contextMenuOptions = {
 			var confirmDelete = confirm("Are you sure you want to delete this file?");
 			if (confirmDelete) {
 				$('.loader').removeClass('hidden');
-				console.log("filenssame", filename);
-				console.log("dirnamsse", dirname);
 				deleteFile(filename, dirname, function() {
 					setDelay();
 				});
 			} else {
-				console.log("user haven't idea to remove the file");
+				console.log("Failed to remove the file");
 			}
 
 		} else if (key === 'rename') {
@@ -68,7 +66,7 @@ var contextMenuOptions = {
 						});
 					}
 				} else {
-					alert("Invalid filename. Only filenames ending with '.js' are allowed.");
+					alert("Invalid filename. Only'.js' files  allowed.");
 				}
 				$('#editor-container').show();
 			});
@@ -83,47 +81,47 @@ var contextMenuOptions = {
 
 
 function initialLoad() {
-    loadAboutUsPage();
-    $('[data-toggle="tooltip"]').tooltip();
-    $.contextMenu(contextMenuOptions);
-    $.ajax({
-        url: 'scriptmanager?action=getHookMapObj',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response !== null) {
-                const workItemHookMapObj = response.workItemHookMapObj;
-                const liveDocHookMapObj = response.liveDocHookMapObj;
-                const workFlowScriptMapObj = response.workFlowScriptMapObj;
-                if (workItemHookMapObj) {
-                    Object.keys(workItemHookMapObj).forEach(function(key) {
-                        var workItemHookScriptName = workItemHookMapObj[key].jsName;
-                        var dirName = "workitemsave";
-                        $('#workitemsave-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + workItemHookScriptName + '" data-content-type="script">' + workItemHookScriptName + '</li>');
-                    });
-                }
-                if (liveDocHookMapObj) {
-                    Object.keys(liveDocHookMapObj).forEach(function(key) {
-                        var liveHookScriptName = liveDocHookMapObj[key].jsName;
-                        var dirName = "documentsave";
-                        $('#documentsave-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + liveHookScriptName + '" data-content-type="script">' + liveHookScriptName + '</li>');
-                    });
-                }
-                if (workFlowScriptMapObj) {
-                    Object.keys(workFlowScriptMapObj).forEach(function(key) {
-                        var workFlowScriptName = workFlowScriptMapObj[key].jsName;
-                        var dirName = "scripts";
-                        $('#scripts-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + workFlowScriptName + '" data-content-type="script">' + workFlowScriptName + '</li>');
-                    });
-                }
-            } else {
-                console.error('Response object is null.');
-            }
-        },
-        error: function(error) {
-            console.error('Error occurred while fetching hookMapObj:', error);
-        }
-    });
+	loadAboutUsPage();
+	$('[data-toggle="tooltip"]').tooltip();
+	$.contextMenu(contextMenuOptions);
+	$.ajax({
+		url: 'scriptmanager?action=getHookMapObj',
+		type: 'GET',
+		dataType: 'json',
+		success: function(response) {
+			if (response !== null) {
+				const workItemHookMapObj = response.workItemHookMapObj;
+				const liveDocHookMapObj = response.liveDocHookMapObj;
+				const workFlowScriptMapObj = response.workFlowScriptMapObj;
+				if (workItemHookMapObj) {
+					Object.keys(workItemHookMapObj).forEach(function(key) {
+						var workItemHookScriptName = workItemHookMapObj[key].jsName;
+						var dirName = "workitemsave";
+						$('#workitemsave-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + workItemHookScriptName + '" data-content-type="script">' + workItemHookScriptName + '</li>');
+					});
+				}
+				if (liveDocHookMapObj) {
+					Object.keys(liveDocHookMapObj).forEach(function(key) {
+						var liveHookScriptName = liveDocHookMapObj[key].jsName;
+						var dirName = "documentsave";
+						$('#documentsave-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + liveHookScriptName + '" data-content-type="script">' + liveHookScriptName + '</li>');
+					});
+				}
+				if (workFlowScriptMapObj) {
+					Object.keys(workFlowScriptMapObj).forEach(function(key) {
+						var workFlowScriptName = workFlowScriptMapObj[key].jsName;
+						var dirName = "scripts";
+						$('#scripts-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + workFlowScriptName + '" data-content-type="script">' + workFlowScriptName + '</li>');
+					});
+				}
+			} else {
+				console.error('Response object is null.');
+			}
+		},
+		error: function(error) {
+			console.error('Error occurred while fetching hookMapObj:', error);
+		}
+	});
 }
 
 
@@ -169,10 +167,10 @@ $(document).ready(function() {
 					saveFile(filename, uploadFoldername, function() {
 						setTimeout(function() {
 							$('.loader').addClass('hidden');
-							uploadedFileScriptContent(filename, uploadFoldername, content);
-							newListItem.click();
-
-							$('#fileInput-workitemsave').val('');
+							uploadedFileScriptContent(filename, uploadFoldername, content, function() {
+								newListItem.click();
+								$('#fileInput-workitemsave').val('');
+							});
 						}, 2000);
 					});
 				});
@@ -227,7 +225,7 @@ $(document).ready(function() {
 	const bar = document.querySelector('.split__bar');
 	const left = document.querySelector('.split__left');
 	const right = document.querySelector('.split__right');
-	
+
 	let isMouseDown = false;
 	bar.addEventListener('mousedown', (e) => {
 		isMouseDown = true;
@@ -301,7 +299,7 @@ function saveFile(filename, foldername, callback) {
 		}
 	});
 }
-function uploadedFileScriptContent(jsName, dirName, content) {
+function uploadedFileScriptContent(jsName, dirName, content, callback) {
 	$.ajax({
 		url: 'scriptmanager?action=updatedScriptContent',
 		type: 'POST',
@@ -313,6 +311,9 @@ function uploadedFileScriptContent(jsName, dirName, content) {
 		},
 		success: function(response) {
 			if (response && response.status === "success") {
+				if (callback && typeof callback === 'function') {
+					callback();
+				}
 			} else {
 				console.error('Error occurred while updating script content:', response);
 			}
@@ -429,7 +430,6 @@ createFileIcons.forEach(function(createFileIcon) {
 		$('#breadcrumbNav').hide();
 		$('#popupContainer').show();
 		$('#fileNameInput').focus();
-		console.log("Directory name is" + directoryName);
 		$('#popupTitle').text("Create File - (" + directoryName + ")");
 	});
 });
@@ -455,7 +455,7 @@ $('#popupContainer').on('click', '#createBtn', function() {
 			});
 		}
 	} else {
-		alert("Invalid filename. Only filenames ending with '.js' are allowed.");
+		alert("Invalid filename. Only'.js' files will be allowed.");
 	}
 	$('#editor-container').show();
 });
