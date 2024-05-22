@@ -77,8 +77,8 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	// Adding LiveDoc Hook File to the LiveDocHookMapObj
 	public void addLiveDocHookFileToMapObj(HttpServletRequest req, HttpServletResponse resp,
 			Map<String, Object> reponseObject) throws Exception {
-		String workitemSaveDirName = "documentsave";
-		File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
+		String livedocSaveDirName = "livedocumentsave";
+		File hookScriptFile = getHookScriptFolder(livedocSaveDirName);
 		Map<Integer, Map<String, Object>> liveDocHookMapObj = new HashMap<>();
 
 		try {
@@ -105,8 +105,8 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 	// Adding WorkFlow Script File to the workFlowScriptMapObj
 	public void addWorkFlowScriptObjToMap(HttpServletRequest req, HttpServletResponse resp,
 			Map<String, Object> responseObject) throws Exception {
-		String workitemSaveDirName = "scripts";
-		File hookScriptFile = getHookScriptFolder(workitemSaveDirName);
+		String workFlowScriptsDirName = "scripts";
+		File hookScriptFile = getHookScriptFolder(workFlowScriptsDirName);
 		Map<Integer, Map<String, Object>> workFlowScriptMapObj = new HashMap<>();
 
 		try {
@@ -194,7 +194,7 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		} else if (heading.equals("scripts")) {
 			hookScriptFile = getHookScriptFolder("scripts");
 		} else {
-			hookScriptFile = getHookScriptFolder("documentsave");
+			hookScriptFile = getHookScriptFolder("livedocumentsave");
 		}
 
 		StringBuilder hookScriptContent = new StringBuilder();
@@ -248,8 +248,8 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		if (heading.equals("workitemsave")) {
 			File workItemSaveDir = getHookScriptFolder("workitemsave");
 			writeFileContent(sb, workItemSaveDir, jsName);
-		} else if (heading.equals("documentsave")) {
-			File livedocSaveDir = getHookScriptFolder("documentsave");
+		} else if (heading.equals("livedocumentsave")) {
+			File livedocSaveDir = getHookScriptFolder("livedocumentsave");
 			writeFileContent(sb, livedocSaveDir, jsName);
 		} else {
 			File livedocSaveDir = getHookScriptFolder("scripts");
