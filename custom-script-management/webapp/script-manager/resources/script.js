@@ -12,6 +12,7 @@ function initializeEditor() {
 		mode: "javascript",
 		theme: "default",
 		gutters: ["CodeMirror-lint-markers"],
+		inputStyle: "textarea",
 		lineNumbers: false
 	});
 	editor.setSize("100%", "100%");
