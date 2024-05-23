@@ -9,13 +9,11 @@
 	<link rel="stylesheet" href="./libraries/css/bootstrap.min.css">
 	<link rel="stylesheet"
 		href="./libraries/css/jquery.contextMenu.min.css">
-	<link rel="stylesheet" href="./libraries/css/all.min.css">
-	<link rel="stylesheet" href="./libraries/css/font-awesome.min.css">
-	<link rel="stylesheet" href="./libraries/css/codemirror.min.css">
-	<link rel="stylesheet" href="/libraries/css/codemirror.css">
+	<link rel="stylesheet" href="./libraries/codemirror/codemirror-5.65.16/lib/codemirror.css">
+	<link rel="stylesheet" href="/polarion/ria/font-awesome-4.0.3/css/font-awesome.css">
+	
 
 </head>
-
 <body>
 	<div class="split">
 		<div class="split__left" id="sidebar" style="background-color: #2D373C; position: sticky;">
@@ -24,7 +22,7 @@
 					<div class="d-flex  align-items-center">
 						<h3 style="margin-top: 0px; font-size: 20px; color: white;">Script Management</h3>
 						<a href="#" id="infoIcon" class="info-button" data-content-type="about-us">
-							<i class="fas fa-info-circle fa-stack fa-2 info-style" data-toggle="tooltip"
+							<i class="fa fa-info-circle fa-stack fa-2 info-style" data-toggle="tooltip"ll
 								title="About Us"></i>
 						</a>
 					</div>
@@ -42,7 +40,7 @@
 								<span class="icon file">
 									<i id=" plusIcon" class="fa fa-file-o summary-icon " data-heading="workitemsave"
 										data-toggle="tooltip" title="Create new file"></i>
-									<i class="fas fa-upload upload-icon file-input" data-heading="workitemsave"
+									<i class="fa fa-upload upload-icon file-input" data-heading="workitemsave"
 										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
 										title="Upload new file" style="margin-left: 1px;"></i>
 								</span>
@@ -64,7 +62,7 @@
 								<span class="icon file">
 									<i class="fa fa-file-o summary-icon" data-heading="scripts" data-toggle="tooltip"
 										title="Create new file" style="margin-left: -35px;"></i>
-									<i id="plusIcon1" class="fas fa-upload upload-icon file-input"
+									<i id="plusIcon1" class="fa fa-upload upload-icon file-input"
 										data-heading="scripts" data-input-target="fileInput-workitemsave"
 										data-toggle="tooltip" title="Upload new file"></i>
 								</span>
@@ -81,15 +79,15 @@
 								</span>
 								<span style="font-size: 14px; margin: 0px">Document Save Scripts</span>
 								<span class="icon file">
-									<i id="plusIcon2" class="fa fa-file-o summary-icon" data-heading="documentsave"
+									<i id="plusIcon2" class="fa fa-file-o summary-icon" data-heading="livedocumentsave"
 										data-toggle="tooltip" title="Create new file" style="margin-left: -35px;"></i>
-									<i class="fas fa-upload upload-icon file-input" data-heading="documentsave"
+									<i class="fa fa-upload upload-icon file-input" data-heading="livedocumentsave"
 										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
 										title="Upload new file"></i>
 								</span>
 							</button>
 							<div class="panel">
-								<ul class="file-list folder" id="documentsave-file"
+								<ul class="file-list folder" id="livedocumentsave-file"
 									style="background-color: white; padding: 0px">
 								</ul>
 							</div>
@@ -173,7 +171,7 @@
 					</section>
 					<h4 style="color:#005F87;">How to use</h4>
 						<h5>Required Plugins:</h5>
-						<p>Download following Plugins <b>Intelizign-LiveDoc-Save</b> & <b>FMC-WorkItem-Save</b> from Polarion Extension Portal</p>
+						<p>Download <b>Intelizign-LiveDoc-Save-Plugin</b> & <b>FMC-WorkItem-Save-Plugin</b> from Polarion Extension Portal</p>
 						<h5>Custom Directory Naming Convention</h5>
 						<ul><li>To create a directory named as <strong>scripts</strong> inside the following path: <code>[polarion_installation_path]\</code></li>
 						<li>Inside "scripts," create Directory with following name:</li>
@@ -225,9 +223,9 @@
 		title="Please wait.">
 	<script src="./libraries/js/jquery-3.6.4.min.js"></script>
 	<script src="./libraries/js/jquery.contextMenu.min.js"></script>
-	<script src="./libraries/js/aa0406e945.js" crossorigin="anonymous"></script>
-	<script src="./libraries/js/bootstrap.bundle.min.js"></script>
-	<script src="./libraries/js/codemirror.min.js"></script>
+	<script src="./libraries/js/bootstrap.bundle.min.js"></script> 
+	<script src="./libraries/codemirror/codemirror-5.65.16/lib/codemirror.js"></script>
+	<script src="./libraries/codemirror/codemirror-5.65.16/mode/javascript/javascript.js"></script>
 	<script src="./libraries/js/javascript.min.js"></script>
 	<script src="./resources/script.js"></script>
 </body>

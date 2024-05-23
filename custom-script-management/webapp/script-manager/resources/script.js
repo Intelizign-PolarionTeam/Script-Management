@@ -1,7 +1,7 @@
-var editor;
 var jsName;
 var dirName;
 var isFile = false;
+var editor;
 function initializeEditor() {
 	var editorElement = document.getElementById('editor-container');
 	if (!editorElement) {
@@ -10,11 +10,10 @@ function initializeEditor() {
 	}
 	editor = CodeMirror(editorElement, {
 		mode: "javascript",
-		theme: "default",
 		gutters: ["CodeMirror-lint-markers"],
-		inputStyle: "textarea",
 		lineNumbers: false
 	});
+
 	editor.setSize("100%", "100%");
 	editor.on("keyup", function() {
 		isFile = true;
@@ -31,7 +30,7 @@ var contextMenuOptions = {
 		var filename = $(this).text();
 		var dirname = $(this).data('heading');
 		if (key === 'delete') {
-			var confirmDelete = confirm("Are you sure you want to delete this file?");
+			var confirmDelete = confirm("Are you sure you want to delete the file '" + filename + "' from the directory '" + dirname + "'?");
 			if (confirmDelete) {
 				$('.loader').removeClass('hidden');
 				deleteFile(filename, dirname, function() {
@@ -104,8 +103,8 @@ function initialLoad() {
 				if (liveDocHookMapObj) {
 					Object.keys(liveDocHookMapObj).forEach(function(key) {
 						var liveHookScriptName = liveDocHookMapObj[key].jsName;
-						var dirName = "documentsave";
-						$('#documentsave-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + liveHookScriptName + '" data-content-type="script">' + liveHookScriptName + '</li>');
+						var dirName = "livedocumentsave";
+						$('#livedocumentsave-file').append('<li class="file-item" data-heading="' + dirName + '" data-name="' + liveHookScriptName + '" data-content-type="script">' + liveHookScriptName + '</li>');
 					});
 				}
 				if (workFlowScriptMapObj) {
@@ -203,7 +202,7 @@ $(document).ready(function() {
 			$('#editor-container').show();
 			$('#about-us-div').hide();
 			var breadcrumbHtml = '';
-			if (dirName === "workitemsave" || dirName === "documentsave") {
+			if (dirName === "workitemsave" || dirName === "livedocumentsave") {
 				breadcrumbHtml += `
 			<li class="breadcrumb-item"><a>polarion</a></li>
 			<li class="breadcrumb-item"><a>scripts</a></li>
@@ -435,14 +434,14 @@ createFileIcons.forEach(function(createFileIcon) {
 	});
 });
 
-$('#popupContainer').on('click', '#createBtn', function() {
+$('#popupContainer').on('click', '#createBtn', function(event) {
 	isFile = false;
 	$('#popupContainer').hide();
 	$('#breadcrumbNav').show();
 	var filename = $('#fileNameInput').val().trim();
 	if (isValidFilename(filename)) {
 		if (isFileExists(filename, directoryName)) {
-			alert(`Filename already exists in the following destination directory ${directoryName}.`);
+			alert(`Filename '${filename}' already exists in the following destination directory '${directoryName}'.`);
 		} else {
 			$('.loader').removeClass('hidden');
 			var fileList = $('#' + directoryName + '-file');
