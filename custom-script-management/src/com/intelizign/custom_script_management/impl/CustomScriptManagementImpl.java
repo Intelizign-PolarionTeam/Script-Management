@@ -56,15 +56,18 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		try {
 			if (hookScriptFile != null && hookScriptFile.exists() && hookScriptFile.isDirectory()) {
 				AtomicInteger id = new AtomicInteger(0);
-				Arrays.stream(hookScriptFile.listFiles()).forEach(jsFile -> {
-					try {
-						workItemHookMapObj.computeIfAbsent(id.get(), k -> new LinkedHashMap<>());
-						workItemHookMapObj.get(id.get()).put("jsName", jsFile.getName());
-						id.getAndIncrement();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				});
+				Arrays.stream(hookScriptFile.listFiles())
+			    .filter(file -> file.isFile() && file.getName().toLowerCase().endsWith(".js"))
+			    .forEach(jsFile -> {
+			        try {
+			            workItemHookMapObj.computeIfAbsent(id.get(), k -> new LinkedHashMap<>());
+			            workItemHookMapObj.get(id.get()).put("jsName", jsFile.getName());
+			            id.getAndIncrement();
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        }
+			    });
+
 				reponseObject.put("workItemHookMapObj", workItemHookMapObj);
 			} else {
 				log.error("The specified folder does not exist or is not a directory.");
@@ -84,7 +87,9 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		try {
 			if (hookScriptFile != null && hookScriptFile.exists() && hookScriptFile.isDirectory()) {
 				AtomicInteger id = new AtomicInteger(0);
-				Arrays.stream(hookScriptFile.listFiles()).forEach(jsFile -> {
+				Arrays.stream(hookScriptFile.listFiles())
+				.filter(file -> file.isFile() && file.getName().toLowerCase().endsWith(".js"))
+				.forEach(jsFile -> {
 					try {
 						liveDocHookMapObj.computeIfAbsent(id.get(), k -> new LinkedHashMap<>());
 						liveDocHookMapObj.get(id.get()).put("jsName", jsFile.getName());
@@ -112,7 +117,9 @@ public class CustomScriptManagementImpl implements CustomScriptManagementService
 		try {
 			if (hookScriptFile != null && hookScriptFile.exists() && hookScriptFile.isDirectory()) {
 				AtomicInteger id = new AtomicInteger(0);
-				Arrays.stream(hookScriptFile.listFiles()).filter(File::isFile).forEach(jsFile -> {
+				Arrays.stream(hookScriptFile.listFiles())
+				.filter(file -> file.isFile() && file.getName().toLowerCase().endsWith(".js"))
+				.forEach(jsFile -> {
 					try {
 						workFlowScriptMapObj.computeIfAbsent(id.get(), k -> new LinkedHashMap<>());
 						workFlowScriptMapObj.get(id.get()).put("jsName", jsFile.getName());

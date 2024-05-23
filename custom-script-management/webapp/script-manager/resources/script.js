@@ -434,13 +434,15 @@ createFileIcons.forEach(function(createFileIcon) {
 	});
 });
 
-$('#popupContainer').on('click', '#createBtn', function(event) {
+$('#popupContainer').on('click', '#createBtn', function() {
 	isFile = false;
+	var preventCreatePopup = false;
 	$('#popupContainer').hide();
 	$('#breadcrumbNav').show();
 	var filename = $('#fileNameInput').val().trim();
 	if (isValidFilename(filename)) {
 		if (isFileExists(filename, directoryName)) {
+			preventCreatePopup = true;
 			alert(`Filename '${filename}' already exists in the following destination directory '${directoryName}'.`);
 		} else {
 			$('.loader').removeClass('hidden');
@@ -456,8 +458,16 @@ $('#popupContainer').on('click', '#createBtn', function(event) {
 		}
 	} else {
 		alert("Invalid filename. Only'.js' files will be allowed.");
+		preventCreatePopup = true;
 	}
+	
+	if(preventCreatePopup){
+		$('#popupContainer').show();
+		$('#breadcrumbNav').hide();
+		$('#editor-container').hide();
+	}else{
 	$('#editor-container').show();
+	}
 });
 
 function loadScriptContent(jsName, dirName) {
@@ -479,8 +489,25 @@ function loadScriptContent(jsName, dirName) {
 function loadAboutUsPage() {
 	$('#breadcrumbNav').hide();
 	$('#editor-container').hide();
-	$('#editor-container').css('margin-top', '0px');
-	$('#about-us-div').css('display', 'block');
+	var isContinu = true;
+	if (isFile) {
+		var _confirm = confirm("Discard changes?");
+		console.log("confirm"+_confirm); //User select i want to discard is true cancel false
+		if (!_confirm) {
+			console.log("Its triggered when");
+			isContinu = false;
+		}
+	}
+	if (isContinu) {  //its only work when condition true
+		resetFileChangedFlag();
+		$('#editor-container').css('margin-top', '0px');
+		$('#about-us-div').css('display', 'block');
+	}else{
+		$('#breadcrumbNav').show();
+		$('#editor-container').show();
+		$('#about-us-div').hide();
+		
+	}
 }
 function resetEditor() {
 	$('#editor-container').empty();
