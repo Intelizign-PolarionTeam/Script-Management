@@ -80,7 +80,8 @@ var contextMenuOptions = {
 };
 
 
-function initialLoad() {
+function initialLoad(infoClicked) {
+	infoClicked = true;
 	loadAboutUsPage();
 	$('[data-toggle="tooltip"]').tooltip();
 	$.contextMenu(contextMenuOptions);
@@ -138,8 +139,9 @@ var jsName;
 var dirName;
 
 $(document).ready(function() {
+	var infoClicked = false;
 	initializeEditor();
-	initialLoad();
+	initialLoad(infoClicked);
 	var uploadFoldername;
 	$('.upload-icon').click(function(event) {
 		event.preventDefault();
@@ -182,11 +184,13 @@ $(document).ready(function() {
 
 
 	$('.info-button').click(function() {
+		infoClicked = true;
 		$('#breadcrumbNav').hide();
 		loadAboutUsPage();
 	});
 	$(document).on('click', '.file-item', function() {
 		var isContinue = true;
+		infoClicked = false;
 		if (isFile) {
 			var _confirm = confirm("Discard changes?");
 			if (!_confirm) {
@@ -260,8 +264,12 @@ $(document).ready(function() {
 
 	$(document).on('click', '#closeBtn', function() {
 		$('#popupContainer').hide();
+		if(infoClicked){
+			$('#about-us-div').show();
+		}else{
 		$('#editor-container').show();
 		$('#breadcrumbNav').show();
+		}
 		$('#rename-popup-Container').hide();
 	});
 
@@ -428,6 +436,7 @@ createFileIcons.forEach(function(createFileIcon) {
 		directoryName = $(this).data('heading');
 		$('#editor-container').hide();
 		$('#breadcrumbNav').hide();
+		$('#about-us-div').hide();
 		$('#popupContainer').show();
 		$('#fileNameInput').focus();
 		$('#popupTitle').text("Create File - (" + directoryName + ")");
