@@ -112,27 +112,27 @@
 			<div id="editor-container" style="display: block;"></div>
 			<div id="about-us-div" style="padding:10px;">
 				<header>
-					<h3 style="color:#005F87;">Welcome to Script Management Plugin
-						<img src="./assets/intelizign.png" alt="Intelizign logo" style="width: 20%;margin-left: 159px;">
+					<h3 style="color:#005F87;font-weight: bolder;">About Extension
+					<!--	<img src="./assets/intelizign.png" alt="Intelizign logo" style="width: 20%;margin-left: 159px;"> -->
 					</h3>
 				</header>
 				<main>
 					<section class="getting-started">
-						<p>The Script Management Extension for Polarion is a comprehensive solution designed to empower
+						<p>The <strong>Script Manager  for Polarion </strong>is a comprehensive solution designed to empower
 							polarion administrators in efficiently managing and customizing script files within the
 							Polarion platform.</p>
 						<div style="display:flex">
 							<div class="card bg-light mb-3 m-2 card-style" style="margin-left:0!important">
 								<div class="icon-style"><i class="fa fa-code"></i></div>
 								<div class="card-body" style="text-align: center;padding: 0px;">
-									<h5 class="card-title">Developed By</h5>
+									<h5 class="card-title"  style="color:black;font-size: bold;">Developed By</h5>
 									<p class="card-text">Intelizign Engineering Services GmbH</p>
 								</div>
 							</div>
 							<div class="card bg-light mb-3 m-2 card-style">
 								<div class="icon-style"><i class="fa fa-envelope-o"></i></div>
 								<div class="card-body" style="text-align: center;padding: 0px;">
-									<h5 class="card-title">Contact Us At</h5>
+									<h5 class="card-title" style="color:black;font-size: bold;">Contact Us At</h5>
 									<p class="card-text"><a href="mailto:polarion.services@intelizign.com"
 											target="_blank">polarion.services@intelizign.com</a></p>
 								</div>
@@ -140,7 +140,7 @@
 							<div class="card bg-light mb-3 m-2 card-style">
 								<div class="icon-style"><i class="fa fa-globe"></i></div>
 								<div class="card-body" style="text-align: center;padding: 0px;">
-									<h5 class="card-title">Visit Us On</h5>
+									<h5 class="card-title" style="color:black;font-size: bold;">Visit Us On</h5>
 									<p class="card-text"><a
 											href="https://intelizign.com/teamcenter-polarion-alm-services/"
 											target="_blank">Intelizign Engineering Services GmbH</a></p>
@@ -149,7 +149,7 @@
 							<div class="card bg-light mb-3 m-2 card-style">
 								<div class="icon-style"><img src="./assets/plugin.png" alt="plugin logo"></div>
 								<div class="card-body" style="text-align: center;padding: 0px;">
-									<h5 class="card-title">Check Our Plugins</h5>
+									<h5 class="card-title" style="color:black;font-size: bold;">Check Our Plugins</h5>
 									<p class="card-text"><a
 											href="https://extensions.polarion.com/searches?utf8=%E2%9C%93&btn=&search=Intelizign"
 											target="_blank">Intelizign Plugins</a></p>
@@ -158,43 +158,43 @@
 						</div>
 					</section>
 					<section class="features">
-						<h5 style="color:#005F87;">Key Features</h5>
+						<h5 style="color:#005F87;font-weight: bolder;">Features</h5>
 						<ul>
 							<li>
-								Polarion Admin can generate new script files directly within the editor.
-								Modify the content of existing script files with this editor.</li>
-							<li>Save changes locally or to a remote server to ensure all work is preserved.</li>
-							<li>Remove files that are no longer needed to keep the workspace organized.
-								Upload new script files from your local system.
+								With a built-in script editor, Polarion administrators can focus on their tasks 
+								without switching between different tools. </li>
+							<li>Only users with the Global Admin role can access and utilize the features, 
+								ensuring robust security and control</li>
+							<li>Polarion Administrators can create, preview, delete, 
+								and rename files directly within the Polarion platform.
 							</li>
+							<li>
+								without needing external script editors Administrators can 
+								perform all script-related activities within Polarion.</li>
+							<li>The integrated CodeMirror Editor provides a seamless and 
+								intuitive interface for managing scripts</li>
+							<li>Fetches and displays valid script files corresponding to 
+								their respective directories on the user interface.
+							</li>
+							<li>
+								Only valid script files are fetched from the server, ensuring 
+								the integrity and security of the files being managed.</li>
+							<li>Streamlines the workflow for script management, making it more efficient 
+								and less time-consuming for administrators</li>
 						</ul>
 					</section>
-					<h4 style="color:#005F87;">How to use</h4>
-						<h5>Required Plugins:</h5>
-						<p>Download <b>Intelizign-LiveDoc-Save-Plugin</b> & <b>FMC-WorkItem-Save-Plugin</b> from Polarion Extension Portal</p>
-						<h5>Custom Directory Naming Convention</h5>
-						<ul><li>To create a directory named as <strong>scripts</strong> inside the following path: <code>[polarion_installation_path]\</code></li>
-						<li>Inside "scripts," create Directory with following name:</li>
-						 <code>[polarion_installation_path]\scripts\workitemsave</code>
-						 <code>[polarion_installation_path]\scripts\livedocumentsave</code></li></ul>
+					
 						
 						
-						<h5>Deployment</h5>
+						<h5 style="font-weight: bolder;">Installation</h5>
 						<ul>
-						<li>Download <Strong>Intelizign-ScriptManagement </Strong> Plugin From Polarion Extension Portal</li>
-						<li>Copy the <Strong>custom-script-management_1.0.0.jar </Strong>From Intelizign-ScriptManagement Package</li>
+						<li>Stop the Polarion server</li>
+						<li>Copy the extension file  <Strong>script-manager.jar </Strong>to the following directory </li>
+						<code>[\polarion installation Directory\polarion\extensions\ScriptManager\eclipse\plugins\].</code> 
+						<li>Delete the  <code>.metadata </code>and <code>.config</code> directory From the Following Path
+						<code>[\polarion installation Directory\data\workspace].</code> </li>
 						<li>Stop Polarion Server</li>
-						<li>Deploy <b>custom-script-management_1.0.0.jar</b> to the following path
-						<code>
-								[polarion_installation_path]\polarion\extensions\your-folder-name\eclipse\plugins\]</code></li>
-						<li>Navigate to <code>[polarion_installation_path]\data\workspace\</code>
-						</li>
-						<li>Delete <b>.config</b> and <b>metadata</b> directories.</li>
-						<li>Start Polarion Server</li>
 						</ul>
-						<h5>Note</h5>
-						<p><code>*</code>Please ensure that you create the directory same as mentioned above.<code>*</code>
-						</p>
 				</main>
 			</div>
 		</div>

@@ -29,7 +29,7 @@
 
     <servlet-mapping>
         <servlet-name>ScriptManager</servlet-name>
-        <url-pattern>/scriptmanager/*</url-pattern>
+        <url-pattern>/scriptmanager</url-pattern>
     </servlet-mapping>
 
     <session-config>
