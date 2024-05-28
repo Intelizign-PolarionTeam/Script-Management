@@ -7,13 +7,13 @@
 	<title></title>
 	<link rel="stylesheet" href="./resources/style.css">
 	<link rel="stylesheet" href="./libraries/css/bootstrap.min.css">
-	<link rel="stylesheet"
-		href="./libraries/css/jquery.contextMenu.min.css">
+	<link rel="stylesheet" href="./libraries/css/jquery.contextMenu.min.css">
 	<link rel="stylesheet" href="./libraries/codemirror/codemirror-5.65.16/lib/codemirror.css">
 	<link rel="stylesheet" href="/polarion/ria/font-awesome-4.0.3/css/font-awesome.css">
-	
+
 
 </head>
+
 <body>
 	<div class="split">
 		<div class="split__left" id="sidebar" style="background-color: #2D373C; position: sticky;">
@@ -22,7 +22,7 @@
 					<div class="d-flex  align-items-center">
 						<h3 style="margin-top: 0px; font-size: 20px; color: white;">Script Management</h3>
 						<a href="#" id="infoIcon" class="info-button" data-content-type="about-us">
-							<i class="fa fa-info-circle fa-stack fa-2 info-style" data-toggle="tooltip"ll
+							<i class="fa fa-info-circle fa-stack fa-2 info-style" data-toggle="tooltip" ll
 								title="About Us"></i>
 						</a>
 					</div>
@@ -62,9 +62,9 @@
 								<span class="icon file">
 									<i class="fa fa-file-o summary-icon" data-heading="scripts" data-toggle="tooltip"
 										title="Create new file" style="margin-left: -35px;"></i>
-									<i id="plusIcon1" class="fa fa-upload upload-icon file-input"
-										data-heading="scripts" data-input-target="fileInput-workitemsave"
-										data-toggle="tooltip" title="Upload new file"></i>
+									<i id="plusIcon1" class="fa fa-upload upload-icon file-input" data-heading="scripts"
+										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
+										title="Upload new file"></i>
 								</span>
 							</button>
 							<div class="panel">
@@ -113,19 +113,20 @@
 			<div id="about-us-div" style="padding:10px;">
 				<header>
 					<h3 style="color:#005F87;font-weight: bolder;">About Extension
-					<!--	<img src="./assets/intelizign.png" alt="Intelizign logo" style="width: 20%;margin-left: 159px;"> -->
+						<!--	<img src="./assets/intelizign.png" alt="Intelizign logo" style="width: 20%;margin-left: 159px;"> -->
 					</h3>
 				</header>
 				<main>
 					<section class="getting-started">
-						<p>The <strong>Script Manager  for Polarion </strong>is a comprehensive solution designed to empower
+						<p>The <strong>Script Manager for Polarion </strong>is a comprehensive solution designed to
+							empower
 							polarion administrators in efficiently managing and customizing script files within the
 							Polarion platform.</p>
 						<div style="display:flex">
 							<div class="card bg-light mb-3 m-2 card-style" style="margin-left:0!important">
 								<div class="icon-style"><i class="fa fa-code"></i></div>
 								<div class="card-body" style="text-align: center;padding: 0px;">
-									<h5 class="card-title"  style="color:black;font-size: bold;">Developed By</h5>
+									<h5 class="card-title" style="color:black;font-size: bold;">Developed By</h5>
 									<p class="card-text">Intelizign Engineering Services GmbH</p>
 								</div>
 							</div>
@@ -161,40 +162,64 @@
 						<h5 style="color:#005F87;font-weight: bolder;">Features</h5>
 						<ul>
 							<li>
-								With a built-in script editor, Polarion administrators can focus on their tasks 
+								With a built-in script editor, Polarion administrators can focus on their tasks
 								without switching between different tools. </li>
-							<li>Only users with the Global Admin role can access and utilize the features, 
+							<li>Only users with the Global Admin role can access and utilize the features,
 								ensuring robust security and control</li>
-							<li>Polarion Administrators can create, preview, delete, 
+							<li>Polarion Administrators can create, preview, delete,
 								and rename files directly within the Polarion platform.
 							</li>
 							<li>
-								without needing external script editors Administrators can 
+								Without needing external script editors Administrators can
 								perform all script-related activities within Polarion.</li>
-							<li>The integrated CodeMirror Editor provides a seamless and 
+							<li>The integrated CodeMirror Editor provides a seamless and
 								intuitive interface for managing scripts</li>
-							<li>Fetches and displays valid script files corresponding to 
+							<li>Fetches and displays valid script files corresponding to
 								their respective directories on the user interface.
 							</li>
 							<li>
-								Only valid script files are fetched from the server, ensuring 
+								Fetches only javascript Files From the server, ensuring
 								the integrity and security of the files being managed.</li>
-							<li>Streamlines the workflow for script management, making it more efficient 
+							<li>Streamlines the workflow for script management, making it more efficient
 								and less time-consuming for administrators</li>
 						</ul>
 					</section>
-					
-						
-						
+					<section>
 						<h5 style="font-weight: bolder;">Installation</h5>
 						<ul>
-						<li>Stop the Polarion server</li>
-						<li>Copy the extension file  <Strong>script-manager.jar </Strong>to the following directory </li>
-						<code>[\polarion installation Directory\polarion\extensions\ScriptManager\eclipse\plugins\].</code> 
-						<li>Delete the  <code>.metadata </code>and <code>.config</code> directory From the Following Path
-						<code>[\polarion installation Directory\data\workspace].</code> </li>
-						<li>Stop Polarion Server</li>
+							<li>Stop the Polarion server</li>
+							<li>Create folder path
+								<code> [PolarionInstallationDirectory\polarion\extensions\ScriptManager\eclipse\plugins]</code>
+							</li>
+							<li>Copy the extension file <Strong>script-manager.jar </Strong>to the following directory
+							</li>
+							<code>[\polarion installation Directory\polarion\extensions\ScriptManager\eclipse\plugins\].</code>
+							<li>Delete the <code>.metadata </code>and <code>.config</code> directory From the Following
+								Path
+								<code>[\polarion installation Directory\data\workspace].</code>
+							</li>
+							<li>Start Polarion Server</li>
 						</ul>
+					</section>
+					<section>
+						<h5 style="font-weight: bolder;">Getting Script Files From Below Polarion Directory:</h5>
+
+						<ul>
+							<li><code>[polarion installation Directory\ polarion\ scripts\workitemsave]</code></li>
+							<li><code>[polarion installation Directory\ scripts\livedocumentsave]</code></li>
+							<li><code>[polarion installation Directory\ scripts]</code></li>
+						</ul>
+					</section>
+					<section>
+						<h5 style="font-weight: bolder;">Note</h5>
+						<p> This extension allows access to script files on your local or remote server from the
+							directories specified above.
+							To execute these script files, you need to install the
+							<strong>Intelizign-Live-Doc-Save</strong>extension
+							for document validation and
+							the <strong>FMC WorkItem-Save extension</strong> for WorkItem object validation.
+						</p>
+					</section>
 				</main>
 			</div>
 		</div>
@@ -223,7 +248,7 @@
 		title="Please wait.">
 	<script src="./libraries/js/jquery-3.6.4.min.js"></script>
 	<script src="./libraries/js/jquery.contextMenu.min.js"></script>
-	<script src="./libraries/js/bootstrap.bundle.min.js"></script> 
+	<script src="./libraries/js/bootstrap.bundle.min.js"></script>
 	<script src="./libraries/codemirror/codemirror-5.65.16/lib/codemirror.js"></script>
 	<script src="./libraries/codemirror/codemirror-5.65.16/mode/javascript/javascript.js"></script>
 	<script src="./libraries/js/javascript.min.js"></script>

@@ -3,6 +3,7 @@
 	<contribution configuration-id="com.polarion.xray.webui.administrationPageExtenders">
 		<extender name="Script Manager" 
 		 pageUrl="/polarion/script-manager/scriptmanager"  
+		 iconUrl ="/polarion/ria/images/topicIcons/App_179-notepad.svg"
 		 projectScope="false" projectGroupScope="false" repositoryScope="true"/>
 	</contribution>
 </module>
