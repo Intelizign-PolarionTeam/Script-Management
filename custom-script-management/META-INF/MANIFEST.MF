@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Custom-script-management
+Bundle-SymbolicName: custom-script-management;singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle: com.polarion.alm.tracker;bundle-version="3.21.2",
+ com.polarion.alm.ui;bundle-version="3.21.2",
+ com.polarion.portal.tomcat;bundle-version="9.0.40",
+ com.fasterxml.jackson;bundle-version="2.11.1"
+Automatic-Module-Name: custom.script.management
+Bundle-ClassPath: custom_script_management.jar
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

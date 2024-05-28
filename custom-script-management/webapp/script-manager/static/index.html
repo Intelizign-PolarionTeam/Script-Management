@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="ISO-8859-1" />
+
+	<title></title>
+	<link rel="stylesheet" href="./resources/style.css">
+	<link rel="stylesheet" href="./libraries/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./libraries/css/jquery.contextMenu.min.css">
+	<link rel="stylesheet" href="./libraries/codemirror/codemirror-5.65.16/lib/codemirror.css">
+	<link rel="stylesheet" href="/polarion/ria/font-awesome-4.0.3/css/font-awesome.css">
+
+
+</head>
+
+<body>
+	<div class="split">
+		<div class="split__left" id="sidebar" style="background-color: #2D373C; position: sticky;">
+			<div class="script-management-container-div scroll-bar">
+				<div id="sidebar-header" style="position: sticky;">
+					<div class="d-flex  align-items-center">
+						<h3 style="margin-top: 0px; font-size: 20px; color: white;">Script Management</h3>
+						<a href="#" id="infoIcon" class="info-button" data-content-type="about-us">
+							<i class="fa fa-info-circle fa-stack fa-2 info-style" data-toggle="tooltip" ll
+								title="About Us"></i>
+						</a>
+					</div>
+				</div>
+				<span class="icon file"> <input type="file" id="fileInput-workitemsave" data-heading="workitemsave"
+						data-input-target="fileInput-workitemsave" style="display: none;" accept=".js" />
+				</span>
+				<div class="koh-tab-content" style="margin-top: 10px;">
+					<div class="koh-tab-content-body">
+						<div id="project-tree" class="koh-faq">
+							<div class="accordion">
+								<span class="open"> <i class="fa fa-angle-right"></i></span>
+								<span class="_close"><i class="fa fa-angle-down"></i></span>
+								<span style="font-size: 14px; margin: 0px">Workitem Save Scripts</span>
+								<span class="icon file">
+									<i id=" plusIcon" class="fa fa-file-o summary-icon " data-heading="workitemsave"
+										data-toggle="tooltip" title="Create new file"></i>
+									<i class="fa fa-upload upload-icon file-input" data-heading="workitemsave"
+										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
+										title="Upload new file" style="margin-left: 1px;"></i>
+								</span>
+							</div>
+							<div class="panel">
+								<ul class="file-list folder" id="workitemsave-file"
+									style="background-color: white; padding: 0px">
+								</ul>
+							</div>
+
+
+							<button class="accordion">
+								<span class="open"> <i class="fa fa-angle-right"></i>
+								</span>
+								<span class="_close">
+									<i class="fa fa-angle-down"></i>
+								</span>
+								<span style="font-size: 14px; margin: 0px">Workflow Scripts</span>
+								<span class="icon file">
+									<i class="fa fa-file-o summary-icon" data-heading="scripts" data-toggle="tooltip"
+										title="Create new file" style="margin-left: -35px;"></i>
+									<i id="plusIcon1" class="fa fa-upload upload-icon file-input" data-heading="scripts"
+										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
+										title="Upload new file"></i>
+								</span>
+							</button>
+							<div class="panel">
+								<ul class="file-list folder" id="scripts-file"
+									style="background-color: white; padding: 0px">
+								</ul>
+							</div>
+							<button class="accordion">
+								<span class="open"> <i class="fa fa-angle-right"></i>
+								</span>
+								<span class="_close"><i class="fa fa-angle-down"></i>
+								</span>
+								<span style="font-size: 14px; margin: 0px">Document Save Scripts</span>
+								<span class="icon file">
+									<i id="plusIcon2" class="fa fa-file-o summary-icon" data-heading="livedocumentsave"
+										data-toggle="tooltip" title="Create new file" style="margin-left: -35px;"></i>
+									<i class="fa fa-upload upload-icon file-input" data-heading="livedocumentsave"
+										data-input-target="fileInput-workitemsave" data-toggle="tooltip"
+										title="Upload new file"></i>
+								</span>
+							</button>
+							<div class="panel">
+								<ul class="file-list folder" id="livedocumentsave-file"
+									style="background-color: white; padding: 0px">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="split__bar"></div>
+		<div class="split__right scroll-bar" id="editor-wrapper">
+			<!--	<div id="editor" -->
+			<nav aria-label="breadcrumb" id="breadcrumbNav" style="display:none">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a>polarion</a></li>
+					<li class="breadcrumb-item"><a>Library</a></li>
+					<li class="breadcrumb-item active-list" aria-current="page">Data</li>
+				</ol>
+				<div class="save-btn-div">
+					<button id="saveButton" class="save-btn-span-class" onclick="saveHookScriptContent()">Save</button>
+				</div>
+			</nav>
+			<div id="editor-container" style="display: block;"></div>
+			<div id="about-us-div" style="padding:10px;">
+				<header>
+					<h3 style="color:#005F87;font-weight: bolder;">About Extension
+						<!--	<img src="./assets/intelizign.png" alt="Intelizign logo" style="width: 20%;margin-left: 159px;"> -->
+					</h3>
+				</header>
+				<main>
+					<section class="getting-started">
+						<p>The <strong>Script Manager for Polarion </strong>is a comprehensive solution designed to
+							empower
+							polarion administrators in efficiently managing and customizing script files within the
+							Polarion platform.</p>
+						<div style="display:flex">
+							<div class="card bg-light mb-3 m-2 card-style" style="margin-left:0!important">
+								<div class="icon-style"><i class="fa fa-code"></i></div>
+								<div class="card-body" style="text-align: center;padding: 0px;">
+									<h5 class="card-title" style="color:black;font-size: bold;">Developed By</h5>
+									<p class="card-text">Intelizign Engineering Services GmbH</p>
+								</div>
+							</div>
+							<div class="card bg-light mb-3 m-2 card-style">
+								<div class="icon-style"><i class="fa fa-envelope-o"></i></div>
+								<div class="card-body" style="text-align: center;padding: 0px;">
+									<h5 class="card-title" style="color:black;font-size: bold;">Contact Us At</h5>
+									<p class="card-text"><a href="mailto:polarion.services@intelizign.com"
+											target="_blank">polarion.services@intelizign.com</a></p>
+								</div>
+							</div>
+							<div class="card bg-light mb-3 m-2 card-style">
+								<div class="icon-style"><i class="fa fa-globe"></i></div>
+								<div class="card-body" style="text-align: center;padding: 0px;">
+									<h5 class="card-title" style="color:black;font-size: bold;">Visit Us On</h5>
+									<p class="card-text"><a
+											href="https://intelizign.com/teamcenter-polarion-alm-services/"
+											target="_blank">Intelizign Engineering Services GmbH</a></p>
+								</div>
+							</div>
+							<div class="card bg-light mb-3 m-2 card-style">
+								<div class="icon-style"><img src="./assets/plugin.png" alt="plugin logo"></div>
+								<div class="card-body" style="text-align: center;padding: 0px;">
+									<h5 class="card-title" style="color:black;font-size: bold;">Check Our Plugins</h5>
+									<p class="card-text"><a
+											href="https://extensions.polarion.com/searches?utf8=%E2%9C%93&btn=&search=Intelizign"
+											target="_blank">Intelizign Plugins</a></p>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="features">
+						<h5 style="color:#005F87;font-weight: bolder;">Features</h5>
+						<ul>
+							<li>
+								With a built-in script editor, Polarion administrators can focus on their tasks
+								without switching between different tools. </li>
+							<li>Only users with the Global Admin role can access and utilize the features,
+								ensuring robust security and control</li>
+							<li>Polarion Administrators can create, preview, delete,
+								and rename files directly within the Polarion platform.
+							</li>
+							<li>
+								without needing external script editors Administrators can
+								perform all script-related activities within Polarion.</li>
+							<li>The integrated CodeMirror Editor provides a seamless and
+								intuitive interface for managing scripts</li>
+							<li>Fetches and displays valid script files corresponding to
+								their respective directories on the user interface.
+							</li>
+							<li>
+								Fetches only javascript Files From the server, ensuring
+								the integrity and security of the files being managed.</li>
+							<li>Streamlines the workflow for script management, making it more efficient
+								and less time-consuming for administrators</li>
+						</ul>
+					</section>
+					<section>
+						<h5 style="font-weight: bolder;">Installation</h5>
+						<ul>
+							<li>Stop the Polarion server</li>
+							<li>Create folder path
+								<code> [PolarionInstallationDirectory\polarion\extensions\ScriptManager\eclipse\plugins]</code>
+							</li>
+							<li>Copy the extension file <Strong>script-manager.jar </Strong>to the following directory
+							</li>
+							<code>[\polarion installation Directory\polarion\extensions\ScriptManager\eclipse\plugins\].</code>
+							<li>Delete the <code>.metadata </code>and <code>.config</code> directory From the Following
+								Path
+								<code>[\polarion installation Directory\data\workspace].</code>
+							</li>
+							<li>Start Polarion Server</li>
+						</ul>
+					</section>
+					<section>
+						<h5 style="font-weight: bolder;">Getting Script Files From Below Polarion Directory:</h5>
+
+						<ul>
+							<li><code>[polarion installation Directory\ polarion\ scripts\workitemsave]</code></li>
+							<li><code>[polarion installation Directory\ scripts\livedocumentsave]</code></li>
+							<li><code>[polarion installation Directory\ scripts]</code></li>
+						</ul>
+					</section>
+					<section>
+						<h5 style="font-weight: bolder;">Note</h5>
+						<p> This extension allows access to script files on your local or remote server from the
+							directories specified above.
+							To execute these script files, you need to install the
+							<strong>Intelizign-Live-Doc-Save</strong>extension
+							for document validation and
+							the <strong>FMC WorkItem-Save extension</strong> for WorkItem object validation.
+						</p>
+					</section>
+				</main>
+			</div>
+		</div>
+	</div>
+	<div id="popupContainer" style="display: none">
+		<div id="popup">
+			<h2 id="popupTitle">Create File</h2>
+			<input type="text" id="fileNameInput" class="form-control" placeholder="Enter file name">
+			<div id="buttons">
+				<button id="createBtn" class="popup-button">Create</button>
+				<button id="closeBtn" class="popup-button">Close</button>
+			</div>
+		</div>
+	</div>
+	<div id="rename-popup-Container" style="display: none;">
+		<div id="rename-popup">
+			<h2>Rename File</h2>
+			<input type="text" id="rename-fileNameInput" class="form-control" placeholder="Rename File Name">
+			<div id="buttons">
+				<button id="renameBtn" class="rename-popup-button">Rename</button>
+				<button id="closeBtn" class="popup-button">Close</button>
+			</div>
+		</div>
+	</div>
+	<img class="loader hidden" src="/polarion/ria/images/progress.gif?buildId=20210920-1545-21_R2-be900ca2"
+		title="Please wait.">
+	<script src="./libraries/js/jquery-3.6.4.min.js"></script>
+	<script src="./libraries/js/jquery.contextMenu.min.js"></script>
+	<script src="./libraries/js/bootstrap.bundle.min.js"></script>
+	<script src="./libraries/codemirror/codemirror-5.65.16/lib/codemirror.js"></script>
+	<script src="./libraries/codemirror/codemirror-5.65.16/mode/javascript/javascript.js"></script>
+	<script src="./libraries/js/javascript.min.js"></script>
+	<script src="./resources/script.js"></script>
+</body>
+
+</html>

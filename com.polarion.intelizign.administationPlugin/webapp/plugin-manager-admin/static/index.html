@@ -1,16 +1,108 @@
-<html lang="en">
-  
-  <!--<link rel="stylesheet" crossorigin href="/polarion/plugin-manager-admin/ui/static/assets/index-bABzNTQJ.css">-->
+<html>
+ 
 <head>
-	<!-- Include jQuery from a CDN -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-	<!--<script type="module" crossorigin src="/polarion/plugin-manager-admin/resources/index-plugin.js"></script>-->
-	
+<meta charset="ISO-8859-1" />
+<title></title>
+<!-- Linking CSS file -->
+				<!--<link rel="stylesheet" href="./resources/styles.css">-->
+				<script src="https://code.jquery.com/jquery-3.7.1.min.js" 
+				integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+ 
 </head>
-  <body>
-	  <h1>Demo...</h1>
-    <div id="app"></div>
-    <script src="/polarion/plugin-manager-admin/resources/index-plugin.js"></script>
-  </body>
-</html>
+<body>
+					<div class="main-container" style="margin-bottom: 20px">
+					<div class="project-container">
+					<label class="title">Project</label>
+					<button onclick="projectDetails()">click me</button>
+					<button onclick="getCustomFields()">Get CustomEnumeration</button>
+					<select class="form-control" id="projectDropDown" name="projectDiv" onChange="projectInfo()">
+					<option>Select</option>
+					</select>
+					</div>
+					<!-- Linking JavaScript file -->
+					<!--<script src="./resources/index.plugin.js"></script>-->
+					<!--<script src="../resources/index-plugin.js"></script>-->
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					<script>
+                  jQuery(document).ready(function() {
+				   jQuery.ajax({
+					url: "ui?action=getProjectDetails",
+					type: "GET",
+					dataType: "json",
+					success: function(data) {
+						alert("successs");
+						const projectId = data.projectId;
+			 			const selectElement = $("#projectDropDown");
+						selectElement.empty();
+			 
+						try {
+							// Use Object.entries() to get an array of [key, value] pairs from the projectId object
+							for (const [key, name] of Object.entries(projectId)) {
+								const option = $("<option>").val(key).text(name);
+								selectElement.append(option);
+							}
+						} catch (error) {
+							console.error("Error processing data:", error);
+						}
+					},
+					error: function(error) {
+					console.error("Error message is", error);
+		}
+	});
+});
+						
+						function projectDetails(){
+							
+					jQuery.ajax({
+					url: "ui?action=getWorkitemTypes",
+					type: "GET",
+					dataType: "json",
+					success: function(data) {
+						alert("working..............");
+					},			 
+						});
+					}
+					
+					function getCustomEnumeration()
+					{
+						jQuery.ajax({
+							url:"ui?action=getCustomEnumeration",
+							type:"GET",
+							dataType:"json",
+							success:function(data)
+							{
+								alert("working getCustomEnumeration..............");
+							},
+						});
+					}
+					function getCustomFields()
+					{
+						jQuery.ajax({
+							url:"ui?action=getCustomField",
+							type:"GET",
+							dataType:"json",
+							success:function(data)
+							{
+								alert("working getCustomEnumeration..............");
+							},
+						});
+					}
+					
+        </script>
+	</body>
+ </html>
